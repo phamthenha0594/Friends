@@ -1,0 +1,1271 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+<title>Friends Season 1 - 01 (The One Where Monica Gets a New Roommate)</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Charis+SIL:ital,wght@0,400;0,700;1,400&family=Inter:wght@400;500;600;700&display=swap');
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { 
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; 
+  background: #f8fafc; 
+  color: #0f172a; 
+  padding: 24px 16px; 
+  line-height: 1.8; 
+  -webkit-text-size-adjust: 100%; 
+}
+
+.header { 
+  background: #ffffff; 
+  color: #0f172a; 
+  padding: 30px 20px; 
+  border-radius: 16px; 
+  margin-bottom: 20px; 
+  text-align: center; 
+  border: 1px solid #e2e8f0;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.02);
+}
+.header h1 { 
+  font-size: 1.8em; 
+  font-weight: 800; 
+  letter-spacing: -0.5px;
+  color: #1e40af;
+  margin-bottom: 6px; 
+}
+.header p { font-size: 0.9em; color: #64748b; font-weight: 500; }
+
+/* Toolbar với hiệu ứng chuyển động mượt mà */
+.toolbar {
+  position: sticky; 
+  top: 12px; 
+  z-index: 100;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(12px); 
+  -webkit-backdrop-filter: blur(12px);
+  border-radius: 16px; 
+  padding: 12px 16px; 
+  margin-bottom: 16px; 
+  border: 1px solid rgba(226, 232, 240, 0.8);
+  box-shadow: 0 4px 20px -2px rgba(15, 23, 42, 0.06);
+  display: flex; 
+  flex-wrap: wrap; 
+  gap: 10px; 
+  align-items: center;
+  transition: all 0.25s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+}
+.toolbar.collapsed .color-picker,
+.toolbar.collapsed .tlabel,
+.toolbar.collapsed .tbtn:not(.toolbar-toggle),
+.toolbar.collapsed .div {
+  display: none;
+}
+.toolbar.collapsed {
+  padding: 8px 12px;
+  justify-content: flex-end;
+  gap: 0;
+  backdrop-filter: blur(8px);
+}
+.toolbar-toggle {
+  background: #f1f5f9;
+  border: 1px solid #cbd5e1;
+  border-radius: 32px;
+  padding: 6px 12px;
+  font-size: 1.2rem;
+  font-weight: 600;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 44px;
+  line-height: 1;
+  color: #334155;
+  margin-left: auto;
+  order: 10;
+  transition: background 0.2s, transform 0.1s;
+}
+.toolbar-toggle:hover {
+  background: #e2e8f0;
+  border-color: #94a3b8;
+}
+.toolbar:not(.collapsed) .toolbar-toggle {
+  margin-left: auto;
+}
+
+.tlabel { font-size: 0.82em; font-weight: 700; color: #334155; text-transform: uppercase; letter-spacing: 0.5px; }
+.color-picker { display: flex; gap: 6px; align-items: center; }
+.hbtn {
+  width: 26px; height: 26px; border-radius: 50%;
+  border: 2px solid transparent; cursor: pointer; flex-shrink: 0;
+  transition: all 0.2s; -webkit-tap-highlight-color: transparent;
+  position: relative;
+}
+.hbtn:hover { transform: scale(1.15); }
+.hbtn.active { border-color: #0f172a; transform: scale(1.1); }
+.hbtn.active::after { content: ''; position: absolute; inset: 2px; border-radius: 50%; border: 2px solid white; }
+
+.toolbar.note-mode-on .color-picker { opacity: 0.25; pointer-events: none; }
+
+.div { width: 1px; height: 24px; background: #cbd5e1; flex-shrink: 0; }
+
+.tbtn {
+  padding: 8px 14px; border-radius: 10px; border: 1px solid #cbd5e1;
+  background: white; color: #334155; font-size: 0.82em; font-weight: 600;
+  cursor: pointer; white-space: nowrap; -webkit-tap-highlight-color: transparent;
+  transition: all 0.2s; display: inline-flex; align-items: center; gap: 4px;
+}
+.tbtn:hover { background: #f1f5f9; border-color: #94a3b8; }
+.tbtn.toggle-active {
+  background: #0f172a !important;
+  color: white !important;
+  border-color: #0f172a !important;
+  box-shadow: inset 0 2px 4px rgba(0,0,0,0.2);
+}
+
+.tbtn-clear-hl { border-color: #f59e0b; color: #d97706; background: #fffbeb; }
+.tbtn-clear-hl:hover { background: #fef3c7; }
+.tbtn-note-mode { border-color: #2563eb; color: #2563eb; background: #eff6ff; }
+.tbtn-note-mode:hover { background: #dbeafe; }
+.tbtn-view-notes { border-color: #ea580c; color: #ea580c; background: #fff7ed; }
+.tbtn-view-notes:hover { background: #ffedd5; }
+
+/* Cấu trúc nội dung - mỗi entry có khung viền */
+.entry { 
+  background: white; 
+  border-radius: 16px; 
+  margin-bottom: 16px; 
+  padding: 18px; 
+  border: 1px solid #e2e8f0;
+  transition: all 0.2s ease;
+}
+
+/* Dòng tiếng Anh với nút điều khiển xếp dọc bên phải */
+.en-row { 
+  font-weight: 600; 
+  font-size: 1.12em; 
+  color: #0f172a; 
+  letter-spacing: -0.2px; 
+  margin-bottom: 8px; 
+  user-select: text; 
+  -webkit-user-select: text;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 12px;
+}
+.en-text {
+  flex: 1;
+  padding-right: 8px;
+}
+.row-controls {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  flex-shrink: 0;
+  align-items: flex-end;
+}
+.row-controls button {
+  background: #f1f5f9;
+  border: 1px solid #cbd5e1;
+  border-radius: 20px;
+  padding: 4px 12px;
+  font-size: 0.7rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  font-family: inherit;
+  color: #334155;
+  min-width: 52px;
+  text-align: center;
+}
+.row-controls button:hover {
+  background: #e2e8f0;
+  border-color: #94a3b8;
+}
+
+.row-line { 
+  margin-top: 6px; 
+  padding: 2px 0; 
+  display: block;
+}
+.ph-content { 
+  font-family: 'Charis SIL', serif; 
+  font-size: 0.98em; 
+  color: #64748b; 
+  letter-spacing: 0.3px; 
+}
+.vi-content { 
+  font-size: 1em; 
+  color: #334155; 
+  font-style: italic; 
+}
+
+/* Khi ẩn row thì không chiếm không gian */
+.row-line.hidden-row {
+  display: none !important;
+}
+
+body.toolbar-note-active ::selection { background: #b3d7ff !important; color: #000000 !important; }
+body.toolbar-note-active ::-webkit-selection { background: #b3d7ff !important; color: #000000 !important; }
+
+mark.hl { border-radius: 4px; padding: 1px 3px; cursor: pointer; text-decoration: none !important; border-bottom: none; color: inherit; }
+mark.c0 { background: #fef08a; } 
+mark.c1 { background: #bbf7d0; } 
+mark.c2 { background: #bfdbfe; } 
+mark.c3 { background: #fbcfe8; } 
+mark.c4 { background: #fed7aa; } 
+mark.hl.pure-note { background-color: transparent !important; }
+mark.has-note { border-bottom: 2.5px dashed #2563eb !important; border-radius: 4px 4px 0 0; }
+
+.notes-panel {
+  display: none; background: white; border-radius: 16px; margin-bottom: 16px;
+  border: 1px solid #e2e8f0; box-shadow: 0 4px 12px rgba(15,23,42,0.05); overflow: hidden;
+}
+.notes-panel.show { display: block; }
+.notes-panel-header {
+  background: #fff7ed; padding: 12px 16px; font-weight: 700; font-size: 0.85em; color: #c2410c;
+  display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid #ffedd5; text-transform: uppercase; letter-spacing: 0.5px;
+}
+.note-item { padding: 14px 16px; border-top: 1px solid #f1f5f9; font-size: 0.9em; position: relative; }
+.note-item:first-child { border-top: none; }
+.note-item .note-text-quoted { color: #64748b; font-style: italic; margin-bottom: 4px; padding-right: 30px; cursor: pointer; }
+.note-item .note-body { color: #0f172a; font-weight: 600; cursor: pointer; }
+.note-item .note-del { position: absolute; right: 16px; top: 14px; color: #94a3b8; cursor: pointer; font-size: 1.1em; }
+.note-item .note-del:hover { color: #ef4444; }
+.no-notes { padding: 20px; color: #94a3b8; font-size: 0.9em; text-align: center; }
+
+.modal-overlay {
+  display: none; position: fixed; inset: 0; background: rgba(15, 23, 42, 0.3);
+  z-index: 9999; align-items: center; justify-content: center; padding: 20px; backdrop-filter: blur(4px);
+}
+.modal-overlay.show { display: flex; }
+.modal { background: white; border-radius: 16px; padding: 20px; width: 100%; max-width: 380px; border: 1px solid #e2e8f0; box-shadow: 0 10px 25px -5px rgba(0,0,0,0.1); }
+.modal h3 { font-size: 1em; font-weight: 700; margin-bottom: 8px; color: #0f172a; }
+.modal textarea {
+  width: 100%; height: 95px; border: 1px solid #cbd5e1; border-radius: 10px;
+  padding: 10px; font-size: 0.95em; font-family: inherit; resize: none; outline: none; line-height: 1.5; margin-top: 8px;
+}
+.modal textarea:focus { border-color: #0f172a; }
+.modal-btns { display: flex; gap: 8px; margin-top: 14px; }
+.modal-btns button { padding: 10px 14px; border-radius: 10px; border: none; font-size: 0.85em; font-weight: 600; cursor: pointer; transition: background 0.15s; }
+.btn-delete-note-inside { background: #fef2f2; color: #dc2626; border: 1px solid #fca5a5 !important; }
+.btn-delete-note-inside:hover { background: #fee2e2; }
+.btn-cancel { background: #f1f5f9; color: #334155; flex-grow: 1; }
+.btn-cancel:hover { background: #e2e8f0; }
+.btn-save { background: #0f172a; color: white; flex-grow: 1; }
+.btn-save:hover { background: #1e293b; }
+
+.save-indicator {
+  position: fixed; bottom: 24px; right: 24px; width: 40px; height: 40px; border-radius: 50%;
+  background: #10b981; color: white; display: none; align-items: center; justify-content: center; font-size: 1.2em; z-index: 9997;
+}
+.save-indicator.show { display: flex; }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>🎬 Friends Season 1 - 01</h1>
+  <p>The One Where Monica Gets a New Roommate</p>
+</div>
+
+<div class="toolbar" id="mainToolbar">
+  <span class="tlabel">Màu:</span>
+  <div class="color-picker">
+    <div class="hbtn active" style="background:#fef08a" data-color="0"></div>
+    <div class="hbtn" style="background:#bbf7d0" data-color="1"></div>
+    <div class="hbtn" style="background:#bfdbfe" data-color="2"></div>
+    <div class="hbtn" style="background:#fbcfe8" data-color="3"></div>
+    <div class="hbtn" style="background:#fed7aa" data-color="4"></div>
+  </div>
+  <button class="tbtn tbtn-clear-hl" id="btnToggleClearHl">🗑 Xóa Highlight [Tắt]</button>
+  <div class="div"></div>
+  <button class="tbtn tbtn-note-mode" id="btnToggleNoteMode">📝 Ghi chú [Tắt]</button>
+  <div class="div"></div>
+  <button class="tbtn" id="btnToggleAllIpa">Hide All IPA</button>
+  <button class="tbtn" id="btnToggleAllVie">Hide All Translations</button>
+  <button class="tbtn tbtn-view-notes" id="btnViewNotes">🗒 Xem ghi chú (<span id="noteCount">0</span>)</button>
+  <button class="toolbar-toggle" id="toolbarToggleBtn">▼</button>
+</div>
+
+<div class="notes-panel" id="notesPanel">
+  <div class="notes-panel-header">
+    📝 Các đoạn đã lưu chữ ghi chú giải nghĩa
+    <span style="cursor:pointer;font-size:1.1em" id="closeNotesPanel">✕</span>
+  </div>
+  <div id="notesList"><div class="no-notes">Chưa có cụm từ ghi chú nào.</div></div>
+</div>
+
+<div id="content"></div>
+
+<div class="modal-overlay" id="modalOverlay">
+  <div class="modal">
+    <h3>📝 Nội dung ghi chú giải nghĩa</h3>
+    <div id="modalQuote" style="font-size:0.85em;color:#64748b;font-style:italic;max-height:60px;overflow-y:auto;background:#f8fafc;padding:8px;border-radius:8px;margin-top:6px;border:1px solid #e2e8f0;"></div>
+    <textarea id="modalText" placeholder="Nhập cấu trúc từ vựng, ngữ pháp cần ghi nhớ..."></textarea>
+    <div class="modal-btns">
+      <button class="btn-delete-note-inside" id="deleteNoteInsideBtn">🗑 Xóa Ghi Chú</button>
+      <button class="btn-cancel" id="cancelModalBtn">Hủy</button>
+      <button class="btn-save" id="saveNoteBtn">Lưu</button>
+    </div>
+  </div>
+</div>
+
+<div class="save-indicator" id="saveInd">✓</div>
+
+<script>
+// ==================== TOÀN BỘ NỘI DUNG KỊCH BẢN ====================
+const entries = [
+  {en:`There's nothing to tell. It's just some guy I work with.`,ph:`ðɛrz ˈnʌθɪŋ tu tɛl. ɪts dʒʌst sʌm ɡaɪ aɪ wɜːrk wɪð.`,vi:`Có gì để kể đâu. Chỉ là một anh chàng cùng chỗ làm thôi.`},
+  {en:`Come on. You're going out with a guy.`,ph:`kʌm ɑːn. jʊr ˈɡoʊɪŋ aʊt wɪð ə ɡaɪ.`,vi:`Thôi nào. Cậu hẹn hò với người này, anh ta phải có vấn đề gì đó.`},
+  {en:`There's gotta be something wrong with him.`,ph:`ðɛrz ˈɡɑːtə bi ˈsʌmθɪŋ rɔːŋ wɪð hɪm.`,vi:`Anh ta phải có vấn đề gì đó.`},
+  {en:`So does he have a hump and a hair piece?`,ph:`soʊ dʌz hi hæv ə hʌmp ænd ə hɛr piːs?`,vi:`Thế anh ta có gù và đội tóc giả không?`},
+  {en:`Wait. Does he eat chalk?`,ph:`weɪt. dʌz hi iːt tʃɔːk?`,vi:`Khoan, anh ta ăn phấn sao?`},
+  {en:`I don't want her to go through what I went through with Carl. Oh.`,ph:`aɪ doʊnt wɑːnt hɜːr tu ɡoʊ θruː wʌt aɪ wɛnt θruː wɪð kɑːrl. oʊ.`,vi:`Vì tôi không muốn cậu ấy trải qua chuyện như tôi với Carl. Oh.`},
+  {en:`Okay, everybody relax. This is not even a date.`,ph:`oʊˈkeɪ, ˈɛvribɑːdi rɪˈlæks. ðɪs ɪz nɑːt ˈiːvən ə deɪt.`,vi:`Thôi, bình tĩnh cả đi. Đó còn chẳng phải hẹn hò.`},
+  {en:`It's just two people going out to dinner and not having sex.`,ph:`ɪts dʒʌst tuː ˈpiːpəl ˈɡoʊɪŋ aʊt tu ˈdɪnər ænd nɑːt ˈhævɪŋ sɛks.`,vi:`Chỉ là hai người cùng đi ăn tối và không ngủ cùng nhau.`},
+  {en:`Sounds like a date to me.`,ph:`saʊndz laɪk ə deɪt tu miː.`,vi:`Với tôi thì giống hẹn hò đấy.`},
+  {en:`I'm back in high school, in the middle of the cafeteria...`,ph:`aɪm bæk ɪn haɪ skuːl, ɪn ðə ˈmɪdəl ʌv ðə ˌkæfəˈtɪriə...`,vi:`Chuyện là, tôi về trường trung học, đứng giữa căng tin`},
+  {en:`...and I realize I'm totally naked.`,ph:`...ænd aɪ ˈriːəˌlaɪz aɪm ˈtoʊtəli ˈneɪkəd.`,vi:`thì nhận ra mình hoàn toàn...lõa lồ.`},
+  {en:`Oh, yeah.`,ph:`oʊ, jæ.`,vi:`Ừ. Tôi từng mơ thế.`},
+  {en:`I've had that dream.`,ph:`aɪv hæd ðæt driːm.`,vi:`Tôi cũng thế.`},
+  {en:`Then I look down and I realize there is a phone...`,ph:`ðɛn aɪ lʊk daʊn ænd aɪ ˈriːəˌlaɪz ðɛr ɪz ə foʊn...`,vi:`Rồi tôi nhìn xuống và nhận ra có một chiếc điện thoại...`},
+  {en:`...there.`,ph:`...ðɛr.`,vi:`ở chỗ đó.`},
+  {en:`Instead of...`,ph:`ɪnˈstɛd ʌv...`,vi:`Thay vì là...`},
+  {en:`That's right!`,ph:`ðæt saɪt!`,vi:`Đúng vậy!`},
+  {en:`MONICA: That one, I've never had.`,ph:`ˈmɑːnɪkə: ðæt wʌn, aɪv ˈnɛvər hæd.`,vi:`MONICA: Chưa từng mơ như thế.`},
+  {en:`PHOEBE: No.`,ph:`ˈfiːbi: noʊ.`,vi:`PHOEBE: Ừ.`},
+  {en:`All of a sudden, the phone starts to ring.`,ph:`ɔːl ʌv ə ˈsʌdən, ðə foʊn stɑːrts tu rɪŋ.`,vi:`Bỗng nhiên, điện thoại đổ chuông.`},
+  {en:`And it turns out it's my mother.`,ph:`ænd ɪt tɜːrnz aʊt ɪts maɪ ˈmʌðər.`,vi:`Và hóa ra là mẹ tôi gọi.`},
+  {en:`Which is very, very weird because she never calls me.`,ph:`wɪtʃ ɪz ˈvɛri, ˈvɛri wɪrd bɪˈkɔːz ʃi ˈnɛvər kɔːlz miː.`,vi:`Chuyện đó thật quá đỗi kỳ lạ vì...mẹ có bao giờ gọi tôi đâu.`},
+  {en:`Hi.`,ph:`haɪ.`,vi:`Chào.`},
+  {en:`This guy says "hello," I wanna kill myself.`,ph:`ðɪs ɡaɪ sɛz hɛˈloʊ, aɪ ˈwɑːnə kɪl maɪˈsɛlf.`,vi:`Ý cậu ấy là, "Chào, tôi muốn tự tử quá."`},
+  {en:`Are you okay, sweetie?`,ph:`ɑːr ju oʊˈkeɪ, ˈswiːti?`,vi:`Anh trai, anh ổn chứ?`},
+  {en:`I feel like someone grabbed my small intestine, pulled it out of my mouth...`,ph:`aɪ fiːl laɪk ˈsʌmwʌn ɡræbd maɪ smɔːl ɪnˈtɛstɪn, pʊld ɪt aʊt ʌv maɪ maʊθ...`,vi:`Anh cảm giác như có người thọc tay vào họng, tóm lấy ruột non, lôi nó ra khỏi mồm`},
+  {en:`...and tied it around my neck.`,ph:`...ænd taɪd ɪt əˈraʊnd maɪ nɛk.`,vi:`...rồi thắt quanh cổ anh.`},
+  {en:`Cookie?`,ph:`ˈkʊki?`,vi:`Bánh quy nhé?`},
+  {en:`Carol moved her stuff out today.`,ph:`ˈkærəl muːvd hɜːr stʌf aʊt təˈdeɪ.`,vi:`Hôm nay Carol dọn đồ đi rồi.`},
+  {en:`PHOEBE & JOEY: Oh.`,ph:`ˈfiːbi ænd ˈdʒoʊi: oʊ.`,vi:`PHOEBE & JOEY: Oh.`},
+  {en:`Let me get you some coffee.`,ph:`lɛt mi ɡɛt ju sʌm ˈkɔːfi.`,vi:`Để em lấy cà phê cho anh.`},
+  {en:`Thanks.`,ph:`θæŋks.`,vi:`Cảm ơn.`},
+  {en:`Ew. Unh.`,ph:`iːw. ʌn.`,vi:`Ew. Unh.`},
+  {en:`No. No, don't! Stop cleansing my aura.`,ph:`noʊ. noʊ, doʊnt! stɑːp ˈklɛnzɪŋ maɪ ˈɔːrə.`,vi:`Không. Đừng! Đừng dọn sạch mây khí của tôi nữa.`},
+  {en:`Just leave my aura alone, okay?`,ph:`dʒʌst liːv maɪ ˈɔːrə əˈloʊn, oʊˈkeɪ?`,vi:`Đừng! Cứ để nguyên đám mây khí đó, nhé?`},
+  {en:`I'll be fine. All right? Really. I hope she'll be very happy.`,ph:`aɪl bi faɪn. ɔːl raɪt? ˈriːəli. aɪ hoʊp ʃiːl bi ˈvɛri ˈhæpi.`,vi:`Tôi sẽ ổn thôi, nhé? Thật đấy, các cậu. Tôi mong cô ấy hạnh phúc.`},
+  {en:`No, you don't.`,ph:`noʊ, ju doʊnt.`,vi:`Đâu phải thế.`},
+  {en:`No, I don't.`,ph:`noʊ, aɪ doʊnt.`,vi:`Không hề. Mặc xác cô ấy!`},
+  {en:`To hell with her. She left me!`,ph:`tu hɛl wɪð hɜːr. ʃi lɛft miː!`,vi:`Cô ấy bỏ tôi!`},
+  {en:`And you never knew she was a lesbian.`,ph:`ænd ju ˈnɛvər nuː ʃi wʌz ə ˈlɛzbiən.`,vi:`Và cậu không ngờ cô ấy đồng tính.`},
+  {en:`No! Okay?`,ph:`noʊ! oʊˈkeɪ?`,vi:`Không, được chưa?`},
+  {en:`Why does everyone keep fixating on that?`,ph:`waɪ dʌz ˈɛvriwʌn kiːp fɪkˈseɪtɪŋ ɑːn ðæt?`,vi:`Sao mọi người chỉ để ý vào chuyện đó?`},
+  {en:`She didn't know. How should I know?`,ph:`ʃi ˈdɪdənt noʊ. haʊ ʃʊd aɪ noʊ?`,vi:`Cô ấy còn không ngờ. Sao tôi ngờ được?`},
+  {en:`Sometimes I wish I was a lesbian.`,ph:`ˈsʌmˌtaɪmz aɪ wɪʃ aɪ wʌz ə ˈlɛzbiən.`,vi:`Đôi khi tôi ước mình là đồng tính nữ.`},
+  {en:`Did I say that out loud?`,ph:`dɪd aɪ seɪ ðæt aʊt laʊd?`,vi:`Tôi nói to câu đó hả?`},
+  {en:`All right, Ross. Look, you're feeling a lot of pain right now.`,ph:`ɔːl raɪt, rɔːs. lʊk, jʊr ˈfiːlɪŋ ə lɑːt ʌv peɪn raɪt naʊ.`,vi:`Được rồi, Ross, nghe này. Lúc này cậu đang thấy rất đau.`},
+  {en:`You're angry. You're hurting.`,ph:`jʊr ˈæŋɡri. jʊr ˈhɜːrtɪŋ.`,vi:`Cậu giận dữ. Tổn thương.`},
+  {en:`Can I tell you what the answer is?`,ph:`kæn aɪ tɛl ju wʌt ðɪ ˈænsər ɪz?`,vi:`Để tôi cho cậu câu trả lời nhé?`},
+  {en:`Strip joints!`,ph:`strɪp dʒɔɪnts!`,vi:`Câu lạc bộ thoát y!`},
+  {en:`Come on, you're single. Have some hormones.`,ph:`kʌm ɑːn, jʊr ˈsɪŋɡəl. hæv sʌm ˈhɔːrmoʊnz.`,vi:`Thôi nào, cậu độc thân rồi. Ra dáng đàn ông đi chứ!`},
+  {en:`See, but I don't want to be single, okay?`,ph:`siː, bʌt aɪ doʊnt wɑːnt tu bi ˈsɪŋɡəl, oʊˈkeɪ?`,vi:`Đấy, nhưng tôi có muốn độc thân đâu, được chứ?`},
+  {en:`I just wanna be married again.`,ph:`aɪ dʒʌst ˈwɑːnə bi ˈmærid əˈɡɛn.`,vi:`Tôi chỉ muốn lại được kết hôn.`},
+  {en:`And I just want a million dollars!`,ph:`ænd aɪ dʒʌst wɑːnt ə ˈmɪljən ˈdɑːlərz!`,vi:`Còn tôi chỉ muốn có một triệu đô la!`},
+  {en:`Rachel?`,ph:`ˈreɪtʃəl?`,vi:`Rachel?`},
+  {en:`Oh, God, Monica! Hi! Thank God!`,ph:`oʊ, ɡɑːd, ˈmɑːnɪkə! haɪ! θæŋk ɡɑːd!`,vi:`Ôi Chúa ơi, Monica! Chào! Tạ ơn Chúa!`},
+  {en:`I went to your building and this guy with a hammer said...`,ph:`aɪ wɛnt tu jʊr ˈbɪldɪŋ ænd ðɪs ɡaɪ wɪð ə ˈhæmər sɛd...`,vi:`Tôi vừa qua nhà thì cậu đi vắng,`},
+  {en:`...that you might be here, and you are.`,ph:`...ðæt ju maɪt bi hɪr, ænd ju ɑːr.`,vi:`rồi một gã cầm búa lớn nói chắc cậu ở đây và đúng thế,`},
+  {en:`Can I get you some coffee?`,ph:`kæn aɪ ɡɛt ju sʌm ˈkɔːfi?`,vi:`Tôi lấy cà phê cho cô nhé?`},
+  {en:`Decaf.`,ph:`ˈdiːkæf.`,vi:`Không caffeine.`},
+  {en:`Okay, everybody, this is Rachel, another Lincoln High survivor.`,ph:`oʊˈkeɪ, ˈɛvribɑːdi, ðɪs ɪz ˈreɪtʃəl, əˈnʌðər ˈlɪŋkən haɪ sərˈvaɪvər.`,vi:`Được rồi, mọi người, đây là Rachel, một kẻ còn toàn mạng nữa từ trường Trung học Lincoln.`},
+  {en:`This is everybody. This is Chandler and Phoebe...`,ph:`ðɪs ɪz ˈɛvribɑːdi. ðɪs ɪz ˈtʃændlər ænd ˈfiːbi...`,vi:`Giới thiệu với cậu đây là Chandler, Phoebe và Joey.`},
+  {en:`...and Joey. And remember my brother, Ross?`,ph:`...ænd ˈdʒoʊi. ænd rɪˈmɛmbər maɪ ˈbʌðər, rɔːs?`,vi:`Và cậu còn nhớ anh tôi, Ross chứ?`},
+  {en:`Sure!`,ph:`ʃʊr!`,vi:`Chắc rồi!`},
+  {en:`Hey.`,ph:`heɪ.`,vi:`Chào.`},
+  {en:`Hi.`,ph:`haɪ.`,vi:`Chào.`},
+  {en:`Oh, God.`,ph:`oʊ, ɡɑːd.`,vi:`Ôi trời!`},
+  {en:`So you wanna tell us now, or are we waiting for four wet bridesmaids?`,ph:`soʊ ju ˈwɑːnə tɛl ʌs naʊ, ɔːr ɑːr wi ˈweɪtɪŋ fɔːr fɔːr wɛt ˈbraɪdzmeɪdz?`,vi:`Thế cậu muốn kể mọi người luôn hay ta phải đợi bốn phù dâu ướt mèm nữa?`},
+  {en:`Oh, God! Well, it started about a half-hour before the wedding.`,ph:`oʊ, ɡɑːd! wɛl, ɪt ˈstɑːrtəd əˈbaʊt ə hæf ˈaʊər bɪˈfɔːr ðə ˈwɛdɪŋ.`,vi:`Ôi trời! Ừ thì... chuyện bắt đầu chừng nửa tiếng trước lễ cưới.`},
+  {en:`I was in this room with all the presents...`,ph:`aɪ wʌz ɪn ðɪs ruːm wɪð ɔːl ðə ˈprɛzənts...`,vi:`Tôi đang ngồi trong phòng chứa quà mừng cưới.`},
+  {en:`...and I was looking at this gravy boat.`,ph:`...ænd aɪ wʌz ˈlʊkɪŋ æt ðɪs ˈɡreɪvi boʊt.`,vi:`Và tôi đang nhìn ngắm cái liễn đựng nước sốt`},
+  {en:`This really gorgeous Limoges gravy boat.`,ph:`ðɪs ˈriːəli ˈɡɔːrdʒəs lɪˈmoʊʒ ˈɡreɪvi boʊt.`,vi:`kiểu Limoges tuyệt đẹp này.`},
+  {en:`When all of a sudden... Sweet 'N Low?`,ph:`wɛn ɔːl ʌv ə ˈsʌdən... swiːt ən loʊ?`,vi:`Thì bỗng... Có đường ăn kiêng Sweet N' Low chứ?`},
+  {en:`I realized...`,ph:`aɪ ˈriːəˌlaɪzd...`,vi:`Tôi nhận ra...`},
+  {en:`...I was more turned on by this gravy boat than by Barry.`,ph:`...aɪ wʌz mɔːr tɜːrnd ɑːn baɪ ðɪs ˈɡreɪvi boʊt ðæn baɪ ˈbæri.`,vi:`Tôi nhận ra mình còn hứng thú với cái liễn này hơn là với Barry.`},
+  {en:`Then I got really freaked out, and that's when it hit me:`,ph:`ðɛn aɪ ɡɑːt ˈriːəli friːkt aʊt, ænd ðæts wɛn ɪt hɪt miː:`,vi:`Rồi tôi thấy rất hoảng loạn, đúng lúc đó tôi mới thấy`},
+  {en:`How much Barry looks like Mr. Potato Head.`,ph:`haʊ mʌtʃ ˈbæri lʊks laɪk ˈmɪstər pəˈteɪtoʊ hɛd.`,vi:`Barry rất giống Ông Đầu Khoai Tây.`},
+  {en:`You know, I mean, I always knew he looked familiar, but...`,ph:`ju noʊ, aɪ miːn, aɪ ˈɔːlweɪz nuː hi lʊkt fəˈmɪljər, bʌt...`,vi:`Thì ý tôi là, tôi luôn thấy anh ấy trông quen lắm, nhưng...`},
+  {en:`Anyway, I just had to get out of there, and I started wondering:`,ph:`ˈɛniˌweɪ, aɪ dʒʌst hæd tu ɡɛt aʊt ʌv ðɛr, ænd aɪ ˈstɑːrtəd ˈwʌndərɪŋ:`,vi:`Dù sao thì...Tôi phải ra khỏi đó và bắt đầu tự hỏi,`},
+  {en:`"Why am I doing this?" And "Who am I doing this for?"`,ph:`"waɪ æm aɪ ˈduːɪŋ ðɪs?" ænd "huː æm aɪ ˈduːɪŋ ðɪs fɔːr?"`,vi:`"Sao mình lại làm vậy và làm vì ai cơ chứ?"`},
+  {en:`Anyway, I just didn't know where to go, and I know you and I have drifted apart...`,ph:`ˈɛniˌweɪ, aɪ dʒʌst ˈdɪdənt noʊ hwɛr tu ɡoʊ, ænd aɪ noʊ ju ænd aɪ hæv ˈdrɪftəd əˈpɑːrt...`,vi:`Thế là dù sao thì tôi cũng không biết phải đi đâu và đúng là hai ta không còn thân thiết,`},
+  {en:`...but you're the only person I know in the city.`,ph:`...bʌt jʊr ðɪ ˈoʊnli ˈpɜːrsən aɪ noʊ ɪn ðə ˈsɪti.`,vi:`nhưng cậu là người duy nhất tôi quen sống ở thành phố này.`},
+  {en:`Who wasn't invited to the wedding.`,ph:`huː ˈwʌzənt ɪnˈvaɪtəd tu ðə ˈwɛdɪŋ.`,vi:`Và không được mời dự lễ cưới.`},
+  {en:`Oh, I was kind of hoping that wouldn't be an issue.`,ph:`oʊ, aɪ wʌz kaɪnd ʌv ˈhoʊpɪŋ ðæt ˈwʊdənt bi ən ˈɪʃuː.`,vi:`Ôi, tôi đã mong chuyện đó không thành vấn đề mà.`},
+  {en:`I'm guessing he bought her the big pipe organ...`,ph:`aɪm ˈɡɛsɪŋ hi bɔːt hɜːr ðə bɪɡ paɪp ˈɔːrɡən...`,vi:`Này nhé, tôi đoán là ông ta mua cây đại phong cầm tặng bà ấy`},
+  {en:`...and she's really not happy about it.`,ph:`...ænd ʃiːz ˈriːəli nɑːt ˈhæpi əˈbaʊt ɪt.`,vi:`và bà ấy không thích lắm.`},
+  {en:`Daddy, I just... I can't marry him.`,ph:`ˈdædi, aɪ dʒʌst... aɪ kænt ˈmæri hɪm.`,vi:`Bố à, chỉ là...Con không thể lấy anh ấy.`},
+  {en:`I'm sorry.`,ph:`aɪm ˈsɑːri.`,vi:`Con rất tiếc.`},
+  {en:`I just don't love him.`,ph:`aɪ dʒʌst doʊnt lʌv hɪm.`,vi:`Chỉ là con không yêu anh ấy.`},
+  {en:`Well, it matters to me.`,ph:`wɛl, ɪt ˈmætərz tu miː.`,vi:`Nhưng có quan trọng với con!`},
+  {en:`CHANDLER: She should not be wearing those pants.`,ph:`ˈtʃændlər: ʃi ʃʊd nɑːt bi ˈwɛrɪŋ ðoʊz pænts.`,vi:`CHANDLER: Cô ta không nên mặc cái quần đó.`},
+  {en:`I say push her down the stairs.`,ph:`aɪ seɪ pʊʃ hɜːr daʊn ðə stɛrz.`,vi:`Hãy đẩy cô ta xuống cầu thang đi!`},
+  {en:`ALL: Push her down the stairs! Push her down the stairs!`,ph:`ɔːl: pʊʃ hɜːr daʊn ðə stɛrz! pʊʃ hɜːr daʊn ðə stɛrz!`,vi:`Đẩy cô ta xuống đi! Đẩy cô ta xuống đi!`},
+  {en:`Come on, Daddy, listen to me!`,ph:`kʌm ɑːn, ˈdædi, ˈlɪsən tu miː!`,vi:`Thôi nào bố, nghe con đi mà!`},
+  {en:`It's like all of my life, everyone's always told me, "You're a shoe!`,ph:`ɪts laɪk ɔːl ʌv maɪ laɪf, ˈɛvriwʌnz ˈɔːlweɪz toʊld miː, "jʊr ə ʃuː!`,vi:`Cứ như suốt những năm qua, mọi người luôn bảo con rằng,`},
+  {en:`You're a shoe! You're a shoe! You're a shoe!"`,ph:`jʊr ə ʃuː! jʊr ə ʃuː! jʊr ə ʃuː!"`,vi:`"Cô là một chiếc giày!"`},
+  {en:`Then today I stopped and said, "What if I don't wanna be a shoe?`,ph:`ðɛn təˈdeɪ aɪ stɑːpt ænd sɛd, "wʌt ɪf aɪ doʊnt ˈwɑːnə bi ə ʃuː?`,vi:`Rồi hôm nay con dừng lại và tự nhủ, "Nếu mình không muốn làm giày thì sao?"`},
+  {en:`What if I wanna be a purse? You know?`,ph:`wʌt ɪf aɪ ˈwɑːnə bi ə pɜːrs? ju noʊ?`,vi:`Lỡ mình muốn làm túi thì sao?"`},
+  {en:`Or a hat?"`,ph:`ɔːr ə hæt?"`,vi:`Bố hiểu chứ? Hay một chiếc mũ?`},
+  {en:`I don't want you to buy me a hat, I am a hat.`,ph:`aɪ doʊnt wɑːnt ju tu baɪ mi ə hæt, aɪ æm ə hæt.`,vi:`Không, con đâu cần bố mua mũ, ý nói con là mũ...`},
+  {en:`It's a metaphor, Daddy!`,ph:`ɪts ə ˈmɛtəfɔːr, ˈdædi!`,vi:`Đó là phép ẩn dụ, bố ạ!`},
+  {en:`You can see where he'd have trouble.`,ph:`ju kæn siː hwɛr hiːd hæv ˈtrʌbəl.`,vi:`Cậu biết bố cậu thấy rối rồi đó.`},
+  {en:`Look, Daddy, it's my life.`,ph:`lʊk, ˈdædi, ɪts maɪ laɪf.`,vi:`Bố nghe này, đây là cuộc đời con.`},
+  {en:`Well, maybe I'll just stay here with Monica.`,ph:`wɛl, ˈmeɪbi aɪl dʒʌst steɪ hɪr wɪð ˈmɑːnɪkə.`,vi:`Vâng, có lẽ con sẽ ở đây luôn với Monica.`},
+  {en:`I guess we've established she's staying with Monica.`,ph:`aɪ ɡɛs wiːv ɪˈstæblɪʃt ʃiːz ˈsteɪɪŋ wɪð ˈmɑːnɪkə.`,vi:`À, có vẻ ta đã biết cậu ấy sẽ ở đây với Monica.`},
+  {en:`Well, maybe that's my decision.`,ph:`wɛl, ˈmeɪbi ðæts maɪ dɪˈsɪʒən.`,vi:`Thì có lẽ đó là quyết định của con.`},
+  {en:`Well, maybe I don't need your money.`,ph:`wɛl, ˈmeɪbi aɪ doʊnt niːd jʊr ˈmʌni.`,vi:`Vậy có lẽ con không cần tiền của bố.`},
+  {en:`Wait! Wait! I said maybe!`,ph:`weɪt! weɪt! aɪ sɛd ˈmeɪbi!`,vi:`Khoan! Con nói là có lẽ thôi!`},
+  {en:`Okay. Just breathe, that's it.`,ph:`oʊˈkeɪ. dʒʌst briːð, ðæts ɪt.`,vi:`Rồi, cứ hít thở đều. Đúng thế.`},
+  {en:`Just try to think of nice, calm things.`,ph:`dʒʌst traɪ tu θɪŋk ʌv naɪs, kɑːm θɪŋz.`,vi:`Cậu chỉ cần cố nghĩ tới những điều êm đềm, tốt đẹp.`},
+  {en:`[SINGING] Raindrops on roses And whiskers on kittens`,ph:`ˈreɪndrɑːps ɑːn ˈroʊzɪz ænd ˈwɪskərz ɑːn ˈkɪtənz`,vi:`Giọt mưa trên cánh hồng Và những sợi râu mèo con`},
+  {en:`Doorbells and sleigh bells And something with mittens`,ph:`ˈdɔːrbɛlz ænd sleɪ bɛlz ænd ˈsʌmθɪŋ wɪð ˈmɪtənz`,vi:`Tiếng chuông cửa và chuông ngựa kéo xe Và găng tay gì gì đó`},
+  {en:`La la la something With string`,ph:`lɑː lɑː lɑː ˈsʌmθɪŋ wɪð strɪŋ`,vi:`La, la, la, dải nơ gì gì đó`},
+  {en:`I'm all better now.`,ph:`aɪm ɔːl ˈbɛtər naʊ.`,vi:`Tôi ổn cả rồi.`},
+  {en:`I helped.`,ph:`aɪ hɛlpt.`,vi:`Tôi giúp được rồi.`},
+  {en:`MONICA: Look, this is probably for the best, you know?`,ph:`ˈmɑːnɪkə: lʊk, ðɪs ɪz ˈprɑːbəbli fɔːr ðə bɛst, ju noʊ?`,vi:`MONICA: Rồi, nghe này. Biết đâu thế này là tốt nhất nhỉ?`},
+  {en:`Independence. Taking control of your life.`,ph:`ˌɪndɪˈpɛndəns. ˈteɪkɪŋ kənˈtroʊl ʌv jʊr laɪf.`,vi:`Được tự lập, tự kiểm soát đời mình.`},
+  {en:`And, hey, if you need anything, you can always come to Joey.`,ph:`ænd, heɪ, ɪf ju niːd ˈɛniˌmæθɪŋ, ju kæn ˈɔːlweɪz kʌm tu ˈdʒoʊi.`,vi:`Và này, nếu cậu cần bất cứ thứ gì, cậu luôn có thể đến tìm Joey.`},
+  {en:`Me and Chandler live right across the hall. And he's away a lot.`,ph:`miː ænd ˈtʃændlər lɪv raɪt əˈkrɔːs ðə hɔːl. ænd hiːz əˈweɪ ə lɑːt.`,vi:`Tôi và Chandler sống ở nhà đối diện, và cậu ấy đi vắng suốt.`},
+  {en:`Joey, stop hitting on her. It's her wedding day.`,ph:`ˈdʒoʊi, stɑːp ˈhɪtɪŋ ɑːn hɜːr. ɪts hɜːr ˈwɛdɪŋ deɪ.`,vi:`Joey, đừng tán tỉnh nữa! Hôm nay là ngày cưới của cậu ấy mà.`},
+  {en:`What? Like there's a rule or something?`,ph:`wʌt? laɪk ðɛrz ə ruːl ɔːr ˈsʌmθɪŋ?`,vi:`Sao chứ? Chẳng lẽ có quy tắc gì đó à?`},
+  {en:`[INTERCOM BUZZES]`,ph:`ˈɪntərkɑːm ˈbʌzɪz`,vi:`[TIẾNG CHUÔNG ĐIỆN THOẠI NỘI BỘ]`},
+  {en:`Please don't do that again. It's a horrible sound.`,ph:`pliːz doʊnt duː ðæt əˈɡɛn. ɪts ə ˈhɔːrəbəl saʊnd.`,vi:`Xin đừng làm thế nữa, âm thanh này kinh khủng lắm.`},
+  {en:`PAUL: Uh, it's Paul.`,ph:`pɔːl: ʌ, ɪts pɔːl.`,vi:`PAUL: Là Paul đây.`},
+  {en:`Buzz him in.`,ph:`bʌz hɪm ɪn.`,vi:`Bấm cho anh ta vào đi.`},
+  {en:`Who's Paul?`,ph:`huːz pɔːl?`,vi:`Paul là ai thế?`},
+  {en:`Paul, the wine guy, Paul?`,ph:`pɔːl, ðə waɪn ɡaɪ, pɔːl?`,vi:`Paul, Chàng Paul Rượu Vang, Paul sao?`},
+  {en:`Maybe.`,ph:`ˈmeɪbi.`,vi:`Chắc vậy.`},
+  {en:`Wait a minute. Your "not a real date" is with Paul, the wine guy?`,ph:`weɪt ə ˈmɪnɪt. jʊr nɑːt ə rɪəl deɪt ɪz wɪð pɔːl, ðə waɪn ɡaɪ?`,vi:`Khoan đã nào. Gã "chẳng phải hẹn hò" tối nay của cậu là Chàng Paul Rượu Vang à?`},
+  {en:`He finally asked you out?`,ph:`hi ˈfaɪnəli æskt ju aʊt?`,vi:`Anh ta chịu hẹn hò em rồi?`},
+  {en:`Yes.`,ph:`jɛs.`,vi:`Phải!`},
+  {en:`Ooh. This is a "Dear Diary" moment.`,ph:`uː. ðɪs ɪz ə dɪr ˈdaɪəri ˈmoʊmənt.`,vi:`Ôi, quả là một khoảnh khắc đáng ghi nhớ.`},
+  {en:`Rach, wait, I can cancel.`,ph:`reɪtʃ, weɪt, aɪ kæn ˈkænsəl.`,vi:`Rach, khoan. Tôi có thể hủy hẹn.`},
+  {en:`Please, no. Go, I'll be fine.`,ph:`pliːz, noʊ. goʊ, aɪl bi faɪn.`,vi:`Đừng. Đi đi. Tôi sẽ ổn.`},
+  {en:`Ross, are you okay? I mean, do you want me to stay?`,ph:`rɔːs, ɑːr ju oʊˈkeɪ? aɪ miːn, duː ju wɑːnt mi tu steɪ?`,vi:`Ross, anh ổn không? Ý em là, anh muốn em ở lại không?`},
+  {en:`That'd be good.`,ph:`ðætd bi ɡʊd.`,vi:`Vậy thì tốt quá.`},
+  {en:`Really?`,ph:`ˈrɪəli?`,vi:`Thật ư?`},
+  {en:`No, go on! It's Paul, the wine guy.`,ph:`noʊ, ɡoʊ ɑːn! ɪts pɔːl, ðə waɪn ɡaɪ.`,vi:`Không. Đi đi! Là Chàng Paul Rượu Vang đấy!`},
+  {en:`MONICA: Hi, come in. Paul, this is...`,ph:`ˈmɑːnɪkə: haɪ, kʌm ɪn. pɔːl, ðɪs ɪz...`,vi:`Chào, anh vào đi! Paul, đây là...`},
+  {en:`...everybody. Everybody, this is Paul.`,ph:`...ˈɛvribɑːdi. ˈɛvribɑːdi, ðɪs ɪz pɔːl.`,vi:`mọi người. Mọi người, đây là Paul.`},
+  {en:`JOEY: Paul, the wine guy.`,ph:`ˈdʒoʊi: pɔːl, ðə waɪn ɡaɪ.`,vi:`JOEY: Paul.`},
+  {en:`Wine guy.`,ph:`waɪn ɡaɪ.`,vi:`Chàng Rượu Vang.`},
+  {en:`I didn't catch your name. Paul, was it?`,ph:`aɪ ˈdɪdənt kætʃ jʊr neɪm. pɔːl, wʌz ɪt?`,vi:`Xin lỗi, tôi không nghe kịp tên anh. Là Paul hả?`},
+  {en:`Okay. Sit down. Two seconds.`,ph:`oʊˈkeɪ. sɪt daʊn. tuː ˈsɛkəndz.`,vi:`Được rồi, anh ngồi đi. Đợi chút.`},
+  {en:`Ooh, I just pulled out four eyelashes. That can't be good.`,ph:`uː, aɪ dʒʌst pʊld aʊt fɔːr ˈaɪlæʃɪz. ðæt kænt bi ɡʊd.`,vi:`Ôi, tôi vừa làm rụng bốn sợi lông mi. Không hay rồi.`},
+  {en:`So, Rachel, what are you up to tonight?`,ph:`soʊ, ˈreɪtʃəl, wʌt ɑːr ju ʌp tu təˈnaɪt?`,vi:`Thế Rachel, tối nay cậu định làm gì?`},
+  {en:`Well, I was supposed to be headed for Aruba on my honeymoon...`,ph:`wɛl, aɪ wʌz səˈpoʊzd tu bi ˈhɛdəd fɔːr əˈruːbə ɑːn maɪ ˈhʌnimuːn...`,vi:`À, đáng ra tôi phải tới Aruba hưởng tuần trăng mật,`},
+  {en:`...so, nothing.`,ph:`...soʊ, ˈnʌθɪŋ.`,vi:`nên không gì cả.`},
+  {en:`Right. You're not even getting your honeymoon.`,ph:`raɪt. jʊr nɑːt ˈiːvən ˈɡɛtɪŋ jʊr ˈhʌnimuːn.`,vi:`Phải. Cậu còn không được hưởng tuần trăng mật.`},
+  {en:`God. No, no. Although, Aruba. Heh. This time of year? Eh.`,ph:`ɡɑːd. noʊ, noʊ. ɔːlˈðoʊ, əˈruːbə. hɛ. ðɪs taɪm ʌv jɪr? ɛ.`,vi:`Chúa ơi. Không. Nhưng mà, Aruba. Vào mùa này ư?`},
+  {en:`Talk about your...`,ph:`tɔːk əˈbaʊt jʊr...`,vi:`Này, cứ nghĩ tới...`},
+  {en:`...big lizards.`,ph:`...bɪɡ ˈlɪzərdz.`,vi:`đám thằn lằn lớn.`},
+  {en:`Anyway, if you don't feel like being alone tonight...`,ph:`ˈɛniˌweɪ, ɪf ju doʊnt fiːl laɪk ˈbiːɪŋ əˈloʊn təˈnaɪt...`,vi:`Mà nếu cậu không muốn ở một mình tối nay,`},
+  {en:`...Joey and Chandler are helping me with my furniture.`,ph:`...ˈdʒoʊi ænd ˈtʃændlər ɑːr ˈhɛlpɪŋ mi wɪð maɪ ˈfɜːrnɪtʃər.`,vi:`Joey và Chandler sẽ qua nhà giúp tôi lắp đồ đạc mới.`},
+  {en:`Yes, and we're very excited about it.`,ph:`jɛs, ænd wiːr ˈvɛri ɪkˈsaɪtəd əˈbaʊt ɪt.`,vi:`Phải, và bọn tôi đang rất háo hức đây.`},
+  {en:`Actually, thanks, but I'm just gonna hang out here tonight.`,ph:`ˈæktʃuəli, θæŋks, bʌt aɪm dʒʌst ˈɡɑːnə hæŋ aʊt hɪr təˈnaɪt.`,vi:`À, thật ra, cảm ơn. Nhưng chắc tối nay tôi chỉ loanh quanh trong nhà.`},
+  {en:`It's been a long day.`,ph:`ɪts bɪn ə lɔːŋ deɪ.`,vi:`Hôm nay mệt quá rồi.`},
+  {en:`Oh, sure. Okay. Sure.`,ph:`oʊ, ʃʊr. oʊˈkeɪ. ʃʊr.`,vi:`Ồ, được thôi. Ừ. Phải.`},
+  {en:`Hey, Pheebs, you wanna help?`,ph:`heɪ, fiːbz, ju ˈwɑːnə hɛlp?`,vi:`Này Pheebs, muốn giúp không?`},
+  {en:`Oh, I wish I could, but I don't want to.`,ph:`oʊ, aɪ wɪʃ aɪ kʊd, bʌt aɪ doʊnt wɑːnt tuː.`,vi:`Ôi, giá mà được, nhưng tôi không muốn.`},
+  {en:`I'm supposed to attach a bracket-y thing to the side things...`,ph:`aɪm səˈpoʊzd tu əˈtætʃ ə ˈbrækɪti θɪŋ tu ðə saɪd θɪŋz...`,vi:`Tôi phải gắn một thứ thanh nẹp vào các cạnh bên hông`},
+  {en:`...using a bunch of these little worm guys.`,ph:`...ˈjuːzɪŋ ə bʌntʃ ʌv ðoʊz ˈlɪtəl wɜːrm ɡaɪz.`,vi:`bằng đám ốc vít tí hon này.`},
+  {en:`I have no bracket-y thing, I see no worm guys whatsoever...`,ph:`aɪ hæv noʊ ˈbrækɪti θɪŋ, aɪ siː noʊ wɜːrm ɡaɪz ˌwʌtsoʊˈɛvər...`,vi:`Tôi không có thanh nẹp nào, cũng không thấy ốc vít nào cả,`},
+  {en:`...and I cannot feel my legs.`,ph:`...ænd aɪ ˈkænɑːt fiːl maɪ lɛɡz.`,vi:`và hai chân thì tê hết cả rồi.`},
+  {en:`What's this?`,ph:`wʌts ðɪs?`,vi:`Này, cái gì đây?`},
+  {en:`I have no idea.`,ph:`aɪ hæv noʊ aɪˈdiə.`,vi:`Tôi không biết đâu.`},
+  {en:`Done with the bookcase.`,ph:`dʌn wɪð ðə ˈbʊk-keɪs.`,vi:`Xong giá sách rồi.`},
+  {en:`All finished.`,ph:`ɔːl ˈfɪnɪʃt.`,vi:`Hoàn thành.`},
+  {en:`This was Carol's favorite beer.`,ph:`ðɪs wʌz ˈkærəlz ˈfeɪvərɪt bɪr.`,vi:`Đây là loại bia Carol thích.`},
+  {en:`She always drank it out of the can. I should have known.`,ph:`ʃi ˈɔːlweɪz dræŋk ɪt aʊt ʌv ðə kæn. aɪ ʃʊd hæv noʊn.`,vi:`Cô ấy luôn uống thẳng từ lon, lẽ ra tôi phải biết.`},
+  {en:`Hey. Ross, let me ask you a question.`,ph:`heɪ. rɔːs, lɛt mi æsk ju ə ˈkwɛstʃən.`,vi:`Này. Ross, tôi hỏi cậu câu này.`},
+  {en:`She got the furniture, the stereo, the good TV.`,ph:`ʃi ɡɑːt ðə ˈfɜːrnɪtʃər, ðə ˈstɛrioʊ, ðə ɡʊd ˌtiːˈviː.`,vi:`Cô ấy lấy đồ nội thất, loa, TV xịn.`},
+  {en:`What did you get?`,ph:`wʌt dɪd ju ɡɛt?`,vi:`Còn cậu có gì?`},
+  {en:`You guys.`,ph:`ju ɡaɪz.`,vi:`Các cậu.`},
+  {en:`Oh, God. Oh, my God.`,ph:`oʊ, ɡɑːd. oʊ, maɪ ɡɑːd.`,vi:`Ôi Chúa ơi. Ôi Chúa ơi.`},
+  {en:`You got screwed.`,ph:`ju ɡɑːt skruːd.`,vi:`Cậu thảm rồi.`},
+  {en:`Oh, my God.`,ph:`oʊ, maɪ ɡɑːd.`,vi:`Ôi Chúa ơi.`},
+  {en:`I know, I know. I'm such an idiot.`,ph:`aɪ noʊ, aɪ noʊ. aɪm sʌtʃ ən ˈɪdiət.`,vi:`Anh biết. Anh đúng là đồ ngốc.`},
+  {en:`I should've caught on when she went to the dentist four and five times a week.`,ph:`aɪ ʃʊd hæv kɔːt ɑːn wɛn ʃi wɛnt tu ðə ˈdɛntɪst fɔːr ænd faɪv taɪmz ə wiːk.`,vi:`Lẽ ra anh phải biết khi cô ấy bắt đầu khám răng bốn, năm lần một tuần.`},
+  {en:`I mean, how clean can teeth get?`,ph:`aɪ miːn, haʊ kliːn kæn tiːθ ɡɛt?`,vi:`Ý anh là, răng còn trắng tới mức nào được?`},
+  {en:`My brother's going through that. He's such a mess.`,ph:`maɪ ˈbrʌðərz ˈɡoʊɪŋ θruː ðæt. hiːz sʌtʃ ə mɛs.`,vi:`Anh trai em đang trải qua chuyện đó. Anh ấy thê thảm lắm.`},
+  {en:`How did you get through it?`,ph:`haʊ dɪd ju ɡɛt θruː ɪt?`,vi:`Sao anh vượt qua được?`},
+  {en:`He might try accidentally breaking something valuable of hers.`,ph:`hi maɪt traɪ ˌæksɪˈdɛntəli ˈbreɪkɪŋ ˈsʌmθɪŋ ˈvæljuəbəl ʌv hɜːrz.`,vi:`Chà, có thể thử vô tình phá hỏng một thứ quý giá của cô ta.`},
+  {en:`Say her...`,ph:`seɪ hɜːr...`,vi:`Như là...`},
+  {en:`Leg?`,ph:`lɛɡ?`,vi:`Chân?`},
+  {en:`Heh. That's one way of going through it, yeah.`,ph:`hɛ. ðæts wʌn weɪ ʌv ˈɡoʊɪŋ θruː ɪt, jæ.`,vi:`Đó cũng là một cách, phải.`},
+  {en:`Me, I went for the watch.`,ph:`miː, aɪ wɛnt fɔːr ðə wɑːtʃ.`,vi:`Anh thì chọn đồng hồ kìa.`},
+  {en:`You actually broke her watch?`,ph:`ju ˈæktʃuəli broʊk hɜːr wɑːtʃ?`,vi:`Anh thật sự phá đồng hồ cô ta?`},
+  {en:`Mm.`,ph:`m̩.`,vi:`Mm.`},
+  {en:`Barry, I'm sorry. I am so sorry.`,ph:`ˈbæri, aɪm ˈsɑːri. aɪ æm soʊ ˈsɑːri.`,vi:`Barry, em xin lỗi. Em hết sức xin lỗi.`},
+  {en:`You probably think it's about making love with your socks on, but it isn't.`,ph:`ju ˈprɑːbəbli θɪŋk ɪts əˈbaʊt ˈmeɪkɪŋ lʌv wɪð jʊr sɑːks ɑːn, bʌt ɪt ˈɪzənt.`,vi:`Em biết chắc anh nghĩ việc anh đeo tất khi làm tình, nhưng không phải.`},
+  {en:`It isn't, it's about me. And I...`,ph:`ɪt ˈɪzənt, ɪts əˈbaʊt miː. ænd aɪ...`,vi:`Không phải đâu. Là vì em thôi. Chỉ là...`},
+  {en:`Hi. Machine cut me off again. Anyway...`,ph:`haɪ. məˈʃiːn kʌt mi ɔːf əˈɡɛn. ˈɛniˌweɪ...`,vi:`Chào, máy lại ngắt lời em. Dù sao thì...`},
+  {en:`You know what's scary? What if there's only one woman for everybody?`,ph:`ju noʊ wʌts ˈskɛri? wʌt ɪf ðɛrz ˈoʊnli wʌn ˈwʊmən fɔːr ˈɛvribɑːdi?`,vi:`Cậu biết điều gì đáng sợ nhất không? Nếu chỉ có một người phụ nữ cho mỗi người thì sao, hiểu chứ?`},
+  {en:`I mean, what if you get one woman, and that's it?`,ph:`aɪ miːn, wʌt ɪf ju ɡɛt wʌn ˈwʊmən, ænd ðæts ɪt?`,vi:`Ý là, nếu cậu chỉ có một người phụ nữ là hết thì sao?`},
+  {en:`Unfortunately, in my case, there was only one woman for her.`,ph:`ʌnˈfɔːrtʃənətli, ɪn maɪ keɪs, ðɛr wʌz ˈoʊnli wʌn ˈwʊmən fɔːr hɜːr.`,vi:`Không may là, trong trường hợp của tôi, chỉ có một người phụ nữ dành cho cô ấy.`},
+  {en:`What are you talking about? One woman.`,ph:`wʌt ɑːr ju ˈtɔːkɪŋ əˈbaʊt? wʌn ˈwʊmən.`,vi:`Cậu đang nói gì vậy? Một người phụ nữ.`},
+  {en:`That's like saying there's only one flavor of ice cream for you.`,ph:`ðæts laɪk ˈseɪɪŋ ðɛrz ˈoʊnli wʌn ˈfleɪvər ʌv aɪs kriːm fɔːr ju.`,vi:`Cứ như nói chỉ có một vị kem dành cho cậu vậy.`},
+  {en:`Let me tell you something, Ross. There's lots of flavors out there.`,ph:`lɛt mi tɛl ju ˈsʌmθɪŋ, rɔːs. ðɛrz lɑːts ʌv ˈfleɪvərz aʊt ðɛr.`,vi:`Để tôi nói cậu nghe, Ross. Ngoài kia có vô vàn vị kem. Nào là...`},
+  {en:`There's rocky road and cookie dough and bing cherry vanilla.`,ph:`ðɛrz ˈrɑːki roʊd ænd ˈkʊki doʊ ænd bɪŋ ˈtʃɛri vəˈnɪlə.`,vi:`sô-cô-la, bánh quy bột và vani anh đào.`},
+  {en:`You can get them with jimmies or nuts or whipped cream.`,ph:`ju kæn ɡɛt ðəm wɪð ˈdʒɪmiz ɔːr nʌts ɔːr wɪpt kriːm.`,vi:`Cậu có thể ăn kèm với vụn sô-cô-la, các loại hạt hay kem sữa béo.`},
+  {en:`This is the best thing that ever happened to you.`,ph:`ðɪs ɪz ðə bɛst θɪŋ ðæt ˈɛvər ˈhæpənd tu ju.`,vi:`Đây là điều tuyệt vời nhất từng đến với cậu đấy!`},
+  {en:`You got married. You were like, what, 8?`,ph:`ju ɡɑːt ˈmærid. ju wɜːr laɪk, wʌt, eɪt?`,vi:`Cậu kết hôn khi chỉ mới, bao nhiêu nhỉ? Tám tuổi ư?`},
+  {en:`Welcome back to the world. Grab a spoon.`,ph:`ˈwɛlkəm bæk tu ðə wɜːrld. ɡræb ə spuːn.`,vi:`Chào mừng trở lại với thế giới. Nhập cuộc đi!`},
+  {en:`I honestly don't know if I'm hungry or horny.`,ph:`aɪ ˈɑːnəstli doʊnt noʊ ɪf aɪm ˈhʌŋɡri ɔːr ˈhɔːrni.`,vi:`Tôi thật sự không rõ tôi đang đói bụng hay khát tình nữa.`},
+  {en:`Then stay out of my freezer.`,ph:`ðɛn steɪ aʊt ʌv maɪ ˈfriːzər.`,vi:`Tránh xa tủ lạnh của tôi ra.`},
+  {en:`Ever since she walked out on me, I...`,ph:`ˈɛvər sɪns ʃi wɔːkt aʊt ɑːn miː, aɪ...`,vi:`Từ khi cô ta bỏ đi, anh...`},
+  {en:`What? What?`,ph:`wʌt? wʌt?`,vi:`Anh sao? Sao hả?`},
+  {en:`You wanna spell it out with noodles?`,ph:`ju ˈwɑːnə spɛl ɪt aʊt wɪð ˈnuːdəlz?`,vi:`Anh muốn lấy mì viết ra không?`},
+  {en:`No, it's more of a fifth date kind of revelation.`,ph:`noʊ, ɪts mɔːr ʌv ə fɪfθ deɪ kaɪnd ʌv ˌrɛvəˈleɪʃən.`,vi:`Không, đó kiểu như là chuyện phải đợi đến cuộc hẹn thứ năm mới được nói.`},
+  {en:`Oh, so there's gonna be a fifth date?`,ph:`oʊ, soʊ ðɛrz ˈɡɑːnə bi ə fɪfθ deɪ?`,vi:`Ồ, vậy là...sẽ có cuộc hẹn thứ năm ư?`},
+  {en:`Isn't there?`,ph:`ˈɪzənt ðɛr?`,vi:`Có không nhỉ?`},
+  {en:`Yeah, yeah. I think there is.`,ph:`jæ, jæ. aɪ θɪŋk ðɛr ɪz.`,vi:`Có chứ. Em nghĩ là có.`},
+  {en:`What were you gonna say?`,ph:`wʌt wɜːr ju ˈɡɑːnə seɪ?`,vi:`Anh đang định nói gì nhỉ?`},
+  {en:`Well... Er, uh...`,ph:`wɛl... ɜːr, ʌ...`,vi:`Ừ thì...`},
+  {en:`Ever since she left me, um...`,ph:`ˈɛvər sɪns ʃi lɛft miː, ʌm...`,vi:`Từ khi cô ta bỏ anh thì...`},
+  {en:`...I haven't been able to perform...`,ph:`...aɪ ˈhævənt bɪn ˈeɪbəl tu pərˈfɔːrm...`,vi:`Anh không thể làm chuyện...`},
+  {en:`...sexually.`,ph:`...ˈsɛkʃuəli.`,vi:`tình dục.`},
+  {en:`Oh, God! Oh, God! I am so...`,ph:`oʊ, ɡɑːd! oʊ, ɡɑːd! aɪ æm soʊ...`,vi:`Ôi Chúa ơi! Ôi Chúa ơi!`},
+  {en:`I'm so sorry.`,ph:`aɪm soʊ ˈsɑːri.`,vi:`Rất xin lỗi.`},
+  {en:`It's okay.`,ph:`ɪts oʊˈkeɪ.`,vi:`Ổn mà.`},
+  {en:`Being spit on is probably not what you need right now.`,ph:`ˈbiːɪŋ spɪt ɑːn ɪz ˈprɑːbəbli nɑːt wʌt ju niːd raɪt naʊ.`,vi:`Em biết có lẽ lúc này anh không cần được nhổ nước vào đâu.`},
+  {en:`Um...`,ph:`ʌm...`,vi:`Um...`},
+  {en:`How long?`,ph:`haʊ lɔːŋ?`,vi:`Bao lâu rồi?`},
+  {en:`Two years.`,ph:`tuː jɪrz.`,vi:`Hai năm.`},
+  {en:`Wow!`,ph:`waʊ!`,vi:`Chà.`},
+  {en:`I'm glad you smashed her watch.`,ph:`aɪm ɡlæd ju smæʃt hɜːr wɑːtʃ.`,vi:`Em mừng là anh đã đập vỡ đồng hồ cô ta.`},
+  {en:`So you still think you might want that fifth date?`,ph:`soʊ ju stɪl θɪŋk ju maɪt wɑːnt ðæt fɪfθ deɪ?`,vi:`Thế em có còn nghĩ là muốn có cuộc hẹn thứ năm chứ?`},
+  {en:`Yeah.`,ph:`jæ.`,vi:`Vâng.`},
+  {en:`Yeah, I do.`,ph:`jæ, aɪ duː.`,vi:`Vâng, có chứ.`},
+  {en:`I, Joanie, take you, Charles, as my lawful husband.`,ph:`aɪ, ˈdʒoʊni, teɪk ju, tʃɑːrlz, æz maɪ ˈlɔːfəl ˈhʌzbənd.`,vi:`Tôi, Joanie, xin nhận Charles làm người chồng hợp pháp của mình.`},
+  {en:`MINISTER: Do you take Joanie...?`,ph:`ˈmɪnɪstər: duː ju teɪk ˈdʒoʊni...?`,vi:`MỤC SƯ: Con có nhận Joanie làm...`},
+  {en:`Oh! See.`,ph:`oʊ! siː.`,vi:`Thấy không?`},
+  {en:`But Joanie loved Chachi. That's the difference.`,ph:`bʌt ˈdʒoʊni lʌvd ˈtʃætʃi. ðæts ðə ˈdɪfərəns.`,vi:`Nhưng Joanie yêu Chachi. Khác ở chỗ ấy đấy.`},
+  {en:`"Grab a spoon."`,ph:`"ɡræb ə spuːn."`,vi:`"Nhập cuộc đi."`},
+  {en:`Do you know long it's been since I grabbed a spoon?`,ph:`duː ju noʊ lɔːŋ ɪt sɪns aɪ ɡræbd ə spuːn?`,vi:`Hai cậu biết đã bao lâu tôi chưa nhập cuộc không?`},
+  {en:`Do the words, "Billy, don't be a hero," mean anything to you?`,ph:`duː ðə wɜːrdz, "ˈbɪli, doʊnt bi ə ˈhɪroʊ," miːn ˈɛniˌmæθɪŋ tu ju?`,vi:`Câu nói "Billy, chớ làm anh hùng" có gợi lên gì không?`},
+  {en:`You know, here's the thing. Even if I could get it together enough...`,ph:`ju noʊ, hɪrz ðə θɪŋ. ˈiːvən ɪf aɪ kʊd ɡɛt ɪt təˈɡɛðər ɪˈnʌf...`,vi:`Đấy, vấn đề là đây.`},
+  {en:`...to ask a woman out...`,ph:`...tu æsk ə ˈwʊmən aʊt...`,vi:`Kể cả khi tôi có thu được can đảm để mời một cô gái đi chơi...`},
+  {en:`...who am I gonna ask?`,ph:`...huː æm aɪ ˈɡɑːnə æsk?`,vi:`tôi biết mời ai bây giờ?`},
+  {en:`Isn't this amazing?`,ph:`ˈɪzənt ðɪs əˈmeɪzɪŋ?`,vi:`Tuyệt quá nhỉ?`},
+  {en:`I mean, I have never made coffee before in my life.`,ph:`aɪ miːn, aɪ hæv ˈnɛvər meɪd ˈkɔːfi bɪˈfɔːr ɪn maɪ laɪf.`,vi:`Ý tôi là, cả đời tôi chưa từng pha cà phê đâu.`},
+  {en:`That is amazing.`,ph:`ðæt ɪz əˈmeɪzɪŋ.`,vi:`Quả là tuyệt thật.`},
+  {en:`Congratulations.`,ph:`kənˌɡrætʃuˈleɪʃənz.`,vi:`Chúc mừng.`},
+  {en:`While you're on a roll, if you feel like you gotta make a Western omelet or something...`,ph:`waɪl jʊr ɑːn ə roʊl, ɪf ju fiːl laɪk ju ˈɡɑːtə meɪk ə ˈwɛstərn ˈɑːmlɪt ɔːr ˈsʌmθɪŋ...`,vi:`Đang sẵn tay, cậu có muốn làm trứng chiên kiểu miền Tây hay gì không?`},
+  {en:`Although, actually I'm really not that hungry this morning.`,ph:`ɔːlˈðoʊ, ˈæktʃuəli aɪm ˈriːəli nɑːt ðæt ˈhʌŋɡri ðɪs ˈmɔːrnɪŋ.`,vi:`Mặc dù thật ra sáng nay tôi không đói thế đâu.`},
+  {en:`Good morning.`,ph:`ɡʊd ˈmɔːrnɪŋ.`,vi:`Chào buổi sáng.`},
+  {en:`MONICA: Good morning.`,ph:`ˈmɑːnɪkə: ɡʊd ˈmɔːrnɪŋ.`,vi:`MONICA: Chào.`},
+  {en:`Morning.`,ph:`ˈmɔːrnɪŋ.`,vi:`Chào.`},
+  {en:`JOEY: Morning.`,ph:`ˈdʒoʊi: ˈmɔːrnɪŋ.`,vi:`JOEY: Chào.`},
+  {en:`Morning.`,ph:`ˈmɔːrnɪŋ.`,vi:`Chào.`},
+  {en:`JOEY: Morning, Paul.`,ph:`ˈdʒoʊi: ˈmɔːrnɪŋ, pɔːl.`,vi:`JOEY: Chào buổi sáng, Paul.`},
+  {en:`Hello, Paul.`,ph:`hɛˈloʊ, pɔːl.`,vi:`Chào, Paul.`},
+  {en:`Hi. Paul, is it?`,ph:`haɪ. pɔːl, ɪt 1z?`,vi:`Chào. Là Paul, nhỉ?`},
+  {en:`MONICA: I had a really great time last night.`,ph:`ˈmɑːnɪkə: aɪ hæd ə ˈriːəli ɡreɪt taɪm læst naʊt.`,vi:`MONICA: Tối qua em thật sự rất vui.`},
+  {en:`PAUL: Thank you. Thank you so much.`,ph:`pɔːl: θæŋk ju. θæŋk ju soʊ mʌtʃ.`,vi:`PAUL: Cảm ơn. Cảm ơn em nhiều lắm.`},
+  {en:`We'll talk later, okay?`,ph:`wiːl tɔːk ˈleɪtər, oʊˈkeɪ?`,vi:`Nói chuyện sau, nhé?`},
+  {en:`Yeah.`,ph:`jæ.`,vi:`Ừ.`},
+  {en:`Thank you.`,ph:`θæŋk ju.`,vi:`Cảm ơn em.`},
+  {en:`That wasn't a real date.`,ph:`ðæt ˈwʌzənt ə rɪəl deɪt.`,vi:`Đó còn chẳng phải hẹn hò.`},
+  {en:`What the hell do you do on a real date?`,ph:`wʌt ðə hɛl duː ju duː ɑːn ə rɪəl deɪt?`,vi:`Thế cậu làm trò gì khi hẹn hò thật?`},
+  {en:`Shut up and put my table back.`,ph:`ʃʌt ʌp ænd pʊt maɪ ˈteɪbəl bæk.`,vi:`Im đi và đẩy bàn về chỗ cũ.`},
+  {en:`JOEY: Okay.`,ph:`ˈdʒoʊi: oʊˈkeɪ.`,vi:`JOEY: Được rồi.`},
+  {en:`All right, kids, I gotta get to work.`,ph:`ɔːl raɪt, kɪdz, aɪ ˈɡɑːtə ɡɛt tu wɜːrk.`,vi:`Được rồi, các cậu. Tôi đi làm đây.`},
+  {en:`If I don't input those numbers, it doesn't make much of a difference.`,ph:`ɪf aɪ doʊnt ˈɪnpʊt ðoʊz ˈnʌmbərz, ɪt ˈdʌzənt meɪk mʌtʃ ʌv ə ˈdɪfərəns.`,vi:`Nếu tôi không nhập mấy con số đó thì cũng chẳng có gì khác mấy.`},
+  {en:`So, like, you guys all have jobs?`,ph:`soʊ, laɪk, ju ɡaɪz ɔːl hæv dʒɑːbz?`,vi:`Vậy là, các cậu đều có việc làm ư?`},
+  {en:`Yeah, we all have jobs.`,ph:`jæ, wi ɔːl hæv dʒɑːbz.`,vi:`Ừ, bọn này đều có việc làm.`},
+  {en:`See, that's how we buy stuff.`,ph:`siː, ðæts haʊ wi baɪ stʌf.`,vi:`Đấy, thế nên bọn này mới có tiền mua đồ.`},
+  {en:`Yeah, I'm an actor.`,ph:`jæ, aɪm ən ˈæktər.`,vi:`Ừ, tôi là diễn viên.`},
+  {en:`Wow. Would I have seen you in anything?`,ph:`waʊ. wʊd aɪ hæv siːn ju ɪn ˈɛniˌmæθɪŋ?`,vi:`Chà. Tôi xem cậu diễn chưa nhỉ?`},
+  {en:`Oh, I doubt it. Mostly regional work.`,ph:`oʊ, aɪ daʊt ɪt. ˈmoʊstli ˈriːdʒənəl wɜːrk.`,vi:`À, chắc là chưa. Phần lớn chỉ trong khu vực.`},
+  {en:`Unless you happened to catch the Wee One's production of Pinocchio.`,ph:`ʌnˈlɛs ju ˈhæpənd tu kætʃ ðə wiː wʌnz prəˈdʌkʃən ʌv pɪˈnoʊkioʊ.`,vi:`Ồ, khoan đã. Trừ khi cậu tình cờ có xem vở kịch về Pinocchio của Wee Ones.`},
+  {en:`"Look, Geppeto. I'm a real live boy."`,ph:`"lʊk, dʒəˈpɛtoʊ. aɪm ə rɪəl laɪv bɔɪ."`,vi:`"Cha ơi, nhìn này. Con là một cậu bé thật rồi."`},
+  {en:`I will not take this abuse.`,ph:`aɪ wɪl nɑːt teɪk ðɪs əˈbjuːs.`,vi:`Tôi không nghe cậu trêu chọc đâu.`},
+  {en:`You're right. I'm sorry.`,ph:`jʊr raɪt. aɪm ˈsɑːri.`,vi:`Cậu nói đúng. Xin lỗi...`},
+  {en:`[SINGING] Once I was a wooden boy A little wooden boy`,ph:`wʌns aɪ wʌz ə ˈwʊdən bɔɪ ə ˈlɪtəl ˈwʊdən bɔɪ`,vi:`Tôi từng là một cậu bé gỗ Một cậu bé gỗ tí hon`},
+  {en:`MONICA: So how are you doing today? Did you sleep okay?`,ph:`ˈmɑːnɪkə: soʊ haʊ ɑːr ju ˈduːɪŋ təˈdeɪ? dɪd ju sliːp oʊˈkeɪ?`,vi:`MONICA: Hôm nay cậu sao rồi? Ngủ ngon chứ?`},
+  {en:`Did you talk to Barry? I can't stop smiling.`,ph:`dɪd ju tɔːk tu ˈbæri? aɪ kænt stɑːp ˈsmaɪlɪŋ.`,vi:`Nói chuyện với Barry chưa? Tôi không ngừng cười được.`},
+  {en:`I can see that. You look like you slept with a hanger in your mouth.`,ph:`aɪ kæn siː ðæt. ju lʊk laɪk ju slɛpt wɪð ə ˈhæŋər ɪn jʊr maʊθ.`,vi:`Tôi thấy mà. Cứ như cậu để móc trong miệng rồi ngủ ấy.`},
+  {en:`I know. He's just so...`,ph:`aɪ noʊ. hiːz dʒʌst soʊ...`,vi:`Tôi biết. Chỉ là anh ấy thật...`},
+  {en:`Remember you and Tony De Marco?`,ph:`rɪˈmɛmbər ju ænd ˈtoʊni di ˈmɑːrkoʊ?`,vi:`Nhớ lúc cậu hẹn hò Tony De Marco chứ?`},
+  {en:`Oh, yeah.`,ph:`oʊ, jæ.`,vi:`Ồ, có.`},
+  {en:`Well, it like that. With feelings.`,ph:`wɛl, ɪt laɪk ðæt. wɪð ˈfiːlɪŋz.`,vi:`Chà, giống thế đấy. Nhưng có cảm xúc.`},
+  {en:`Oh, wow, are you in trouble!`,ph:`oʊ, waʊ, ɑːr ju ɪn ˈtrʌbəl!`,vi:`Ôi, chà. Cậu nguy to rồi nhỉ?`},
+  {en:`Okay, okay. I am just going to get up, go to work...`,ph:`oʊˈkeɪ, oʊˈkeɪ. aɪ æm dʒʌst ˈɡoʊɪŋ tu ɡɛt ʌp, ɡoʊ tu wɜːrk...`,vi:`Được rồi. Tôi sẽ chỉ đứng dậy, đi làm`},
+  {en:`...and not think about him all day.`,ph:`...ænd nɑːt θɪŋk əˈbaʊt hɪm ɔːl deɪ.`,vi:`và không nghĩ về anh ấy cả ngày.`},
+  {en:`Or else I'm just gonna get up and go to work.`,ph:`ɔːr ɛls aɪm dʒʌst ˈɡɑːnə ɡɛt ʌp ænd ɡoʊ tu wɜːrk.`,vi:`Hoặc chỉ cần đứng dậy đi làm thôi.`},
+  {en:`Oh, wish me luck!`,ph:`oʊ, wɪʃ mi lʌk!`,vi:`Ồ, chúc tôi may mắn đi!`},
+  {en:`What for?`,ph:`wʌt fɔːr?`,vi:`Làm gì?`},
+  {en:`I'm gonna go get one of those job things.`,ph:`aɪm ˈɡɑːnə ɡoʊ ɡɛt wʌn ʌv ðoʊz dʒɑːb θɪŋz.`,vi:`Tôi cũng sẽ đi xin...việc làm gì đó.`},
+  {en:`Hey, Monica.`,ph:`heɪ, ˈmɑːnɪkə.`,vi:`Hey, Monica.`},
+  {en:`Hey, Franny. Welcome back.`,ph:`heɪ, ˈfræni. ˈwɛlkəm bæk.`,vi:`Chào Franny. Mừng cô quay lại.`},
+  {en:`How was Florida?`,ph:`haʊ wʌz ˈflɔːrɪdə?`,vi:`Florida thế nào?`},
+  {en:`You had sex, didn't you?`,ph:`ju hæd sɛks, ˈdɪdənt ju?`,vi:`Cậu được lên giường rồi phải không?`},
+  {en:`How do you do that?`,ph:`haʊ duː ju duː ðæt?`,vi:`Sao cô làm được vậy?`},
+  {en:`So, who?`,ph:`soʊ, huː?`,vi:`Thế anh chàng nào đây?`},
+  {en:`You know Paul?`,ph:`ju noʊ pɔːl?`,vi:`Cô biết Paul chứ?`},
+  {en:`Paul, the wine guy?`,ph:`pɔːl, ðə waɪn ɡaɪ?`,vi:`Paul Chàng Rượu Vang?`},
+  {en:`Oh, yeah, I know Paul.`,ph:`oʊ, jæ, aɪ noʊ pɔːl.`,vi:`Ồ, có chứ, tôi biết Paul.`},
+  {en:`You mean, you know Paul like I know Paul?`,ph:`ju miːn, ju noʊ pɔːl laɪk aɪ noʊ pɔːl?`,vi:`Ý cô là cô biết Paul như tôi biết Paul ư?`},
+  {en:`Are you kidding? I take credit for Paul.`,ph:`ɑːr ju ˈkɪdɪŋ? aɪ teɪk ˈkrɛdɪt fɔːr pɔːl.`,vi:`Cô đùa sao? Paul được như hôm nay là nhờ tôi đấy.`},
+  {en:`Before me, there was no snap in his turtle for two years.`,ph:`bɪˈfɔːr miː, ðɛr wʌz noʊ snæp ɪn hɪz ˈtɜːrtəl fɔːr tuː jɪrz.`,vi:`Cô biết không, trước khi gặp tôi, anh ta phải chịu bất lực cả hai năm đấy.`},
+  {en:`Of course it was a line.`,ph:`ʌv kɔːrs ɪt wʌz ə laɪn.`,vi:`Tất nhiên là anh ta diễn rồi.`},
+  {en:`Why? Why would anybody do something like that?`,ph:`waɪ? waɪ wʊd ˈɛvriwʌn duː ˈsʌmθɪŋ laɪk ðæt?`,vi:`Tại sao? Sao lại có người làm thế chứ?`},
+  {en:`We're looking for an answer more sophisticated than:`,ph:`wɪr ˈlʊkɪŋ fɔːr ən ˈænsər mɔːr səˈfɪstɪkeɪtəd ðæn:`,vi:`Xem ra ta đang tìm một câu trả lời tinh tế hơn là...`},
+  {en:`"To get you into bed."`,ph:`"tu ɡɛt ju ˈɪntu bɛd."`,vi:`"Để đưa em lên giường."`},
+  {en:`Is it me?`,ph:`ɪz ɪt miː?`,vi:`Là tại tôi ư?`},
+  {en:`Is it like I have some sort of beacon that only dogs...`,ph:`ɪz ɪt laɪk aɪ hæv sʌm sɔːrt ʌv ˈbiːkən ðæt ˈoʊnli dɔːɡz...`,vi:`Kiểu như tôi có một thứ tín hiệu mà chỉ chó và đám đàn ông`},
+  {en:`...and men with severe emotional problems can hear?`,ph:`...ænd mɛn wɪð sɪˈvɪr ɪˈmoʊʃənəl ˈprɑːbləmz kæn hɪr?`,vi:`có vấn đề nghiêm trọng về cảm xúc mới nghe thấy?`},
+  {en:`All right, come here. Give me your feet.`,ph:`ɔːl raɪt, kʌm hɪr. ɡɪv mi jʊr fiːt.`,vi:`Thôi, lại đây. Đưa chân đây.`},
+  {en:`I just thought he was nice, you know?`,ph:`aɪ dʒʌst θɔːt hi wʌz naɪs, ju noʊ?`,vi:`Tôi tưởng anh ấy tốt, hiểu chứ?`},
+  {en:`I can't believe you didn't know it was a line.`,ph:`aɪ kænt bɪˈliːv ju ˈdɪdənt noʊ ɪt wʌz ə laɪn.`,vi:`Không thể tin là cậu không biết anh ta đang diễn.`},
+  {en:`Guess what.`,ph:`ɡɛs wʌt.`,vi:`Đoán xem?`},
+  {en:`You got a job?`,ph:`ju ɡɑːt ə dʒɑːb?`,vi:`Cậu tìm được việc rồi?`},
+  {en:`Are you kidding?`,ph:`ɑːr ju ˈkɪdɪŋ?`,vi:`Cậu đùa hả?`},
+  {en:`I'm trained for nothing.`,ph:`aɪm treɪnd fɔːr ˈnʌθɪŋ.`,vi:`Tôi có được đào tạo gì đâu.`},
+  {en:`I was laughed out of 12 interviews today.`,ph:`aɪ wʌz læft aʊt ʌv twɛlv ˈɪntərvjuːz təˈdeɪ.`,vi:`Cả 12 lần phỏng vấn hôm nay tôi đều bị cười vào mặt.`},
+  {en:`Yet you're surprisingly upbeat.`,ph:`jɛt jʊr sərˈpraɪzɪŋli ˈʌpbiːt.`,vi:`Thế mà cậu vẫn vui vẻ đến lạ.`},
+  {en:`Well, you would be too if you found Joan and David boots on sale...`,ph:`wɛl, ju wʊd bi tuː ɪf ju faʊnd dʒoʊn ænd ˈdeɪvɪd buːts ɑːn seɪ...`,vi:`Ừ thì, cậu cũng sẽ thế thôi nếu thấy đôi giày của Joan & David`},
+  {en:`...50 percent off.`,ph:`...ˈfɪfti pərˈsɛnt ɔːf.`,vi:`giảm giá 50%.`},
+  {en:`Oh, how well you know me.`,ph:`oʊ, haʊ wɛl ju noʊ miː.`,vi:`Ồ, cậu hiểu tôi rõ quá.`},
+  {en:`They're my new "I don't need a job or my parents.`,ph:`ðeɪr maɪ nuː aɪ doʊnt niːd ə dʒɑːb ɔːr maɪ ˈpɛrənts.`,vi:`Đây là đôi "Tôi chẳng cần công việc, chẳng cần bố mẹ.`},
+  {en:`I've got great boots" boots.`,ph:`aɪv ɡɑːt ɡreɪt buːts buːts.`,vi:`Tôi có giày đẹp rồi" mới của tôi.`},
+  {en:`How'd you pay for them?`,ph:`haʊd ju peɪ fɔːr ðəm?`,vi:`Cậu trả tiền bằng cách nào?`},
+  {en:`Credit card.`,ph:`ˈkrɛdɪt kɑːrd.`,vi:`Thẻ tín dụng.`},
+  {en:`And who pays for that?`,ph:`ænd huː peɪz fɔːr ðæt?`,vi:`Và ai thanh toán hóa đơn?`},
+  {en:`Um, my father.`,ph:`ʌm, maɪ ˈfɑːðər.`,vi:`Bố tôi.`},
+  {en:`You can't live off your parents your whole life.`,ph:`ju kænt lɪv ɔːf jʊr ˈpɛrənts jʊr hoʊl laɪf.`,vi:`Nào, cậu đâu thể sống nhờ bố mẹ cả đời.`},
+  {en:`I know that. That's why I was getting married.`,ph:`aɪ noʊ ðæt. ðæts waɪ aɪ wʌz ˈɡɛtɪŋ ˈmærid.`,vi:`Tôi biết. Thế nên tôi mới kết hôn.`},
+  {en:`Give her a break. It's hard being on your own for the first time.`,ph:`ɡɪv hɜːr ə breɪk. ɪts hɑːrd ˈbiːɪŋ ɑːn jʊr oʊn fɔːr ðə fɜːrst taɪm.`,vi:`Đừng hối cậu ấy. Lần đầu tự lập đâu có dễ.`},
+  {en:`Thank you.`,ph:`θæŋk ju.`,vi:`Cảm ơn cậu.`},
+  {en:`You're welcome.`,ph:`jʊr ˈwɛlkəm.`,vi:`Không có gì.`},
+  {en:`I remember when I first came to this city, I was 14.`,ph:`aɪ rɪˈmɛmbər wɛn aɪ fɜːrst keɪm tu ðɪs ˈsɪti, aɪ wʌz fɔːrˈtiːn.`,vi:`Tôi nhớ lần đầu đến thành phố này tôi mới 14 tuổi.`},
+  {en:`My mom had killed herself and my stepdad was back in prison.`,ph:`maɪ mɑːm hæd kɪld hərˈsɛlf ænd maɪ ˈstɛpˌdæd wʌz bæk ɪn ˈprɪzən.`,vi:`Mẹ tôi vừa tự tử còn bố dượng thì trở lại tù.`},
+  {en:`And I got here, and I didn't know anybody.`,ph:`ænd aɪ ɡɑːt hɪr, ænd aɪ ˈdɪdənt noʊ ˈɛvribɑːdi.`,vi:`Và tôi tới đây, không người quen biết.`},
+  {en:`I ended up living with this albino guy who was cleaning windshields...`,ph:`aɪ ˈɛndəd ʌp ˈlɪvɪŋ wɪð ðɪs ælˈbaɪnoʊ ɡaɪ huː wʌz ˈkliːnɪŋ ˈwɪndʃiːldz...`,vi:`Cuối cùng, tôi sống với một gã bạch tạng`},
+  {en:`...outside Port Authority. And then he killed himself.`,ph:`...aʊtˈsaɪd pɔːrt əˈθɔːrəti. ænd ðɛn hi kɪld hərˈsɛlf.`,vi:`làm nghề lau kính chắn gió ở cơ quan quản lý cảng. Rồi anh ta cũng tự tử.`},
+  {en:`And then I found aromatherapy. So believe me, I know exactly how you feel.`,ph:`ænd ðɛn aɪ faʊnd əˌroʊməˈθɛrəpi. soʊ bɪˈliːv miː, aɪ noʊ ɪɡˈzæktli haʊ ju fiːl.`,vi:`Rồi tôi tìm đến liệu pháp mùi hương. Nên tin tôi đi, tôi hiểu rõ cảm giác của cậu.`},
+  {en:`The word you're looking for is:`,ph:`ðə wɜːrd jʊr ˈlʊkɪŋ fɔːr ɪz:`,vi:`Từ cậu đang tìm kiếm là...`},
+  {en:`"Anyway..."`,ph:`"ˈɛniˌweɪ..."`,vi:`"dù sao thì..."`},
+  {en:`All right. You ready?`,ph:`ɔːl raɪt. ju ˈrɛdi?`,vi:`Rồi. Sẵn sàng chưa?`},
+  {en:`I don't think so.`,ph:`aɪ doʊnt θɪŋk soʊ.`,vi:`Tôi không nghĩ vậy.`},
+  {en:`ROSS: Oh, come on.`,ph:`rɔːs: oʊ, kʌm ɑːn.`,vi:`ROSS: Ồ, thôi nào.`},
+  {en:`Cut. Cut.`,ph:`kʌt. kʌt.`,vi:`Cắt đi.`},
+  {en:`ALL: Cut, cut, cut.`,ph:`ɔːl: kʌt, kʌt, kʌt.`,vi:`Cắt đi. Cắt đi.`},
+  {en:`ROSS: Hey.`,ph:`rɔːs: heɪ.`,vi:`ROSS: Hay lắm, cậu làm được rồi!`},
+  {en:`MONICA: All right.`,ph:`ˈmɑːnɪkə: ɔːl raɪt.`,vi:`MONICA: Tốt rồi!`},
+  {en:`Welcome to the real world.`,ph:`ˈwɛlkəm tu ðə rɪəl wɜːrld.`,vi:`Chào mừng đến với thế giới thực!`},
+  {en:`It sucks. You're gonna love it.`,ph:`ɪt sʌks. jʊr ˈɡɑːnə lʌv ɪt.`,vi:`Tệ lắm. Rồi cậu sẽ thích cho xem.`},
+  {en:`Well, that's it. You gonna crash on the couch?`,ph:`wɛl, ðæts ɪt. ju ˈɡɑːnə kræʃ ɑːn ðə kaʊtʃ?`,vi:`Chà, hết rồi. Anh có định ngủ ở ghế không?`},
+  {en:`No. No, I gotta go home sometime.`,ph:`noʊ. noʊ, aɪ ˈɡɑːtə ɡoʊ hoʊm ˈsʌmˌtaɪm.`,vi:`Không. Cũng có lúc phải về chứ.`},
+  {en:`Are you gonna be okay?`,ph:`ɑːr ju ˈɡɑːnə bi oʊˈkeɪ?`,vi:`Anh sẽ ổn chứ?`},
+  {en:`Yeah.`,ph:`jæ.`,vi:`Ừ.`},
+  {en:`Look what I just found on the floor.`,ph:`lʊk wʌt aɪ dʒʌst faʊnd ɑːn ðə flɔːr.`,vi:`Này Mon, xem tôi vừa thấy gì dưới sàn này.`},
+  {en:`What?`,ph:`wʌt?`,vi:`Sao thế?`},
+  {en:`That's Paul's watch.`,ph:`ðæts pɔːlz wɑːtʃ.`,vi:`Đoán là đồng hồ của Paul.`},
+  {en:`You can just put it back where you found it.`,ph:`ju kæn dʒʌst pʊt ɪt bæk hwɛr ju faʊnd ɪt.`,vi:`Cậu cứ để lại chỗ cũ là được.`},
+  {en:`Oh, boy. All right. Good night, everybody.`,ph:`oʊ, bɔɪ. ɔːl raɪt. ɡʊd naɪt, ˈɛvribɑːdi.`,vi:`Ôi trời! Được rồi. Chúc ngủ ngon.`},
+  {en:`ROSS & RACHEL: Good night.`,ph:`rɔːs ænd ˈreɪtʃəl: ɡʊd naɪt.`,vi:`ROSS & RACHEL: Chúc ngủ ngon.`},
+  {en:`Oh, sorry.`,ph:`oʊ, ˈsɑːri.`,vi:`Ồ, tôi...`},
+  {en:`No. Oh, no. Go.`,ph:`noʊ. oʊ, noʊ. ɡoʊ.`,vi:`Không. Ăn đi.`},
+  {en:`No, have it, really.`,ph:`noʊ, hæv ɪt, ˈrɪəli.`,vi:`Không. Ăn đi. Tôi khỏi.`},
+  {en:`Split it?`,ph:`splɪt ɪt?`,vi:`Chia nhé?`},
+  {en:`Okay.`,ph:`oʊˈkeɪ.`,vi:`Được.`},
+  {en:`Okay.`,ph:`oʊˈkeɪ.`,vi:`Được.`},
+  {en:`Thanks.`,ph:`θæŋks.`,vi:`Cảm ơn.`},
+  {en:`You probably didn't know this, but back in high school I had...`,ph:`ju ˈprɑːbəbli ˈdɪdənt noʊ ðɪs, bʌt bæk ɪn haɪ skuːl aɪ hæd...`,vi:`Này, chắc cậu chưa biết, nhưng hồi trung học tôi đã...`},
+  {en:`...a major crush on you.`,ph:`...ə ˈmeɪdʒər krʌʃ ɑːn ju.`,vi:`mê cậu như điếu đổ đấy.`},
+  {en:`I knew.`,ph:`aɪ nuː.`,vi:`Tôi biết chứ.`},
+  {en:`You did? Oh.`,ph:`ju dɪd? oʊ.`,vi:`Vậy ư? Chà, cảm ơn nhé.`},
+  {en:`I figured you thought I was Monica's geeky older brother.`,ph:`aɪ ˈfɪɡjərd ju θɔːt aɪ wʌz ˈmɑːnɪkəz ˈɡiːki ˈoʊldər ˈbrʌðər.`,vi:`Cứ tưởng cậu chỉ xem tôi là ông anh dở hơi của Monica.`},
+  {en:`I did.`,ph:`aɪ dɪd.`,vi:`Đúng thế mà.`},
+  {en:`Oh.`,ph:`oʊ.`,vi:`Oh.`},
+  {en:`Listen, do you think...`,ph:`ˈlɪsən, duː ju θɪŋk...`,vi:`Nghe này, cậu nghĩ...`},
+  {en:`And try not to let my vulnerability become any kind of a factor here.`,ph:`ænd traɪ nɑːt tu lɛt maɪ ˌvʌlnərəˈbɪləti bɪˈkʌm ˈɛni kaɪnd ʌv ə ˈfæktər hɪr.`,vi:`Và cố để sự yếu đuối hết sức của tôi ảnh hưởng gì tới chuyện này.`},
+  {en:`Do you think it would be okay if I ask you out sometime, maybe?`,ph:`duː ju θɪŋk ɪt wʊd bi oʊˈkeɪ ɪf aɪ æsk ju aʊt ˈsʌmˌtaɪm, ˈmeɪbi?`,vi:`Nhưng cậu nghĩ có ổn không nếu thi thoảng, có lẽ tôi sẽ mời cậu đi chơi?`},
+  {en:`Yeah.`,ph:`jæ.`,vi:`Được chứ.`},
+  {en:`Maybe.`,ph:`ˈmeɪbi.`,vi:`Có lẽ vậy.`},
+  {en:`Okay.`,ph:`oʊˈkeɪ.`,vi:`Được thôi.`},
+  {en:`Okay, maybe I will.`,ph:`oʊˈkeɪ, ˈmeɪbi aɪ wɪl.`,vi:`Được, có lẽ tôi sẽ mời cậu.`},
+  {en:`Good night.`,ph:`ɡʊd naɪt.`,vi:`Ngủ ngon.`},
+  {en:`Good night.`,ph:`ɡʊd naɪt.`,vi:`Ngủ ngon.`},
+  {en:`See you.`,ph:`siː ju.`,vi:`Tạm biệt.`},
+  {en:`ROSS: Mm-hm.`,ph:`rɔːs: m̩-hm̩.`,vi:`ROSS: Mm-hm.`},
+  {en:`Wait, wait. Hey, what's with you?`,ph:`weɪt, weɪt. heɪ, wʌts wɪð ju?`,vi:`Khoan đã. Này, anh sao thế?`},
+  {en:`I just grabbed a spoon.`,ph:`aɪ dʒʌst ɡræbd ə spuːn.`,vi:`Anh vừa nhập cuộc rồi.`},
+  {en:`Can't believe what I'm hearing.`,ph:`kænt bɪˈliːv wʌt aɪm ˈhɪrɪŋ.`,vi:`Không thể tin điều tôi đang nghe nữa.`},
+  {en:`[SINGING] I can't believe What I'm hearing here`,ph:`aɪ kænt bɪˈliːv wʌt aɪm ˈhɪrɪŋ hɪr`,vi:`Không thể tin điều tôi đang nghe nữa`},
+  {en:`What? I said you had...`,ph:`wʌt? aɪ sɛd ju hæd...`,vi:`Sao? Tôi nói cậu chưa...`},
+  {en:`What? I said you had...`,ph:`wʌt? aɪ sɛd ju hæd...`,vi:`Sao? Tôi nói cậu chưa...`},
+  {en:`Would you stop?`,ph:`wʊd ju stɑːp?`,vi:`Cậu thôi đi nhé?`},
+  {en:`Oh, was I doing it again?`,ph:`oʊ, wʌz aɪ ˈduːɪŋ ɪt əˈɡɛn?`,vi:`Ồ, tôi lại làm thế hả?`},
+  {en:`ALL: Yes.`,ph:`ɔːl: jɛs.`,vi:`Phải.`},
+  {en:`WOMAN: Would anybody like more coffee?`,ph:`ˈwʊmən: wʊd ˈɛvriwʌn laɪk mɔːr ˈkɔːfi?`,vi:`NGƯỜI PHỤ NỮ: Ai muốn thêm cà phê không?`},
+  {en:`Did you make it or are you just serving it?`,ph:`dɪd ju meɪk ɪt ɔːr ɑːr ju dʒʌst ˈsɜːrvɪŋ ɪt?`,vi:`Cậu tự pha hay chỉ rót thôi?`},
+  {en:`I'm just serving it.`,ph:`aɪm dʒʌst ˈsɜːrvɪŋ ɪt.`,vi:`Tôi rót thôi.`},
+  {en:`CHANDLER: I'll have a cup of coffee.`,ph:`ˈtʃændlər: aɪl hæv ə kʌp ʌv ˈkɔːfi.`,vi:`CHANDLER: Ừ, cho cốc nữa.`},
+  {en:`Kids, new dream.`,ph:`kɪdz, nuː driːm.`,vi:`Các cậu, giấc mơ mới.`},
+  {en:`I'm in Las Vegas. I'm Liza Minnelli.`,ph:`aɪm ɪn lɑːs ˈveɪɡəs. aɪm ˈlaɪzə mɪˈnɛli.`,vi:`Tôi ở Las Vegas. Tôi là Liza Minnelli.`}
+];
+
+// ==================== CẤU TRÚC DỮ LIỆU MỚI ====================
+let highlightsData = []; // Lưu trạng thái highlight + ghi chú
+let curColor = 0; 
+let autoSaveTimeout = null;
+let currentActiveId = null;
+let isClearHlMode = false;
+let isNoteMode = false;
+let selectionTimeout = null;
+
+const STORAGE_KEY = 'friends_ep1_v5';
+
+function buildContent() {
+  const container = document.getElementById('content');
+  container.innerHTML = '';
+  entries.forEach((entry, idx) => {
+    const entryDiv = document.createElement('div');
+    entryDiv.className = 'entry';
+    
+    // Dòng tiếng Anh + 2 nút dọc bên phải
+    const enDiv = document.createElement('div');
+    enDiv.className = 'en-row';
+    const enSpan = document.createElement('span');
+    enSpan.className = 'en-text';
+    enSpan.textContent = entry.en;
+    const controlsSpan = document.createElement('span');
+    controlsSpan.className = 'row-controls';
+    
+    const ipaBtn = document.createElement('button');
+    ipaBtn.textContent = 'IPA';
+    ipaBtn.setAttribute('data-type', 'ipa');
+    ipaBtn.setAttribute('data-entry', idx);
+    const vieBtn = document.createElement('button');
+    vieBtn.textContent = 'VIE';
+    vieBtn.setAttribute('data-type', 'vie');
+    vieBtn.setAttribute('data-entry', idx);
+    controlsSpan.appendChild(ipaBtn);
+    controlsSpan.appendChild(vieBtn);
+    enDiv.appendChild(enSpan);
+    enDiv.appendChild(controlsSpan);
+    entryDiv.appendChild(enDiv);
+    
+    // Dòng phiên âm
+    if (entry.ph) {
+      const phRow = document.createElement('div');
+      phRow.className = 'row-line ph-row';
+      const phContent = document.createElement('div');
+      phContent.className = 'line-content ph-content';
+      phContent.textContent = `/${entry.ph}/`;
+      phRow.appendChild(phContent);
+      entryDiv.appendChild(phRow);
+    }
+    // Dòng dịch
+    if (entry.vi) {
+      const viRow = document.createElement('div');
+      viRow.className = 'row-line vi-row';
+      const viContent = document.createElement('div');
+      viContent.className = 'line-content vi-content';
+      viContent.textContent = entry.vi;
+      viRow.appendChild(viContent);
+      entryDiv.appendChild(viRow);
+    }
+    container.appendChild(entryDiv);
+  });
+  
+  // Gắn sự kiện cho các nút IPA/VIE
+  document.querySelectorAll('.row-controls button').forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const entryDiv = btn.closest('.entry');
+      const type = btn.getAttribute('data-type');
+      let targetRow = null;
+      if (type === 'ipa') targetRow = entryDiv.querySelector('.ph-row');
+      else if (type === 'vie') targetRow = entryDiv.querySelector('.vi-row');
+      if (targetRow) {
+        targetRow.classList.toggle('hidden-row');
+        autoSave();
+      }
+    });
+  });
+}
+
+// Ẩn tất cả IPA
+function hideAllIpa() {
+  document.querySelectorAll('.ph-row').forEach(row => {
+    row.classList.add('hidden-row');
+  });
+  document.getElementById('btnToggleAllIpa').textContent = 'Show All IPA';
+  autoSave();
+}
+// Hiện tất cả IPA
+function showAllIpa() {
+  document.querySelectorAll('.ph-row').forEach(row => {
+    row.classList.remove('hidden-row');
+  });
+  document.getElementById('btnToggleAllIpa').textContent = 'Hide All IPA';
+  autoSave();
+}
+// Ẩn tất cả VIE
+function hideAllVie() {
+  document.querySelectorAll('.vi-row').forEach(row => {
+    row.classList.add('hidden-row');
+  });
+  document.getElementById('btnToggleAllVie').textContent = 'Show All Translations';
+  autoSave();
+}
+// Hiện tất cả VIE
+function showAllVie() {
+  document.querySelectorAll('.vi-row').forEach(row => {
+    row.classList.remove('hidden-row');
+  });
+  document.getElementById('btnToggleAllVie').textContent = 'Hide All Translations';
+  autoSave();
+}
+
+// Toggle global IPA
+function toggleGlobalIpa() {
+  const btn = document.getElementById('btnToggleAllIpa');
+  if (btn.textContent === 'Hide All IPA') hideAllIpa();
+  else showAllIpa();
+}
+// Toggle global VIE
+function toggleGlobalVie() {
+  const btn = document.getElementById('btnToggleAllVie');
+  if (btn.textContent === 'Hide All Translations') hideAllVie();
+  else showAllVie();
+}
+
+function initColorPicker() {
+  document.querySelectorAll('.color-picker .hbtn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelector('.color-picker .hbtn.active').classList.remove('active');
+      btn.classList.add('active');
+      curColor = parseInt(btn.dataset.color);
+      if (isClearHlMode) toggleClearHlMode();
+    });
+  });
+}
+
+function toggleClearHlMode() {
+  isClearHlMode = !isClearHlMode;
+  const btn = document.getElementById('btnToggleClearHl');
+  btn.classList.toggle('toggle-active', isClearHlMode);
+  btn.textContent = isClearHlMode ? "🗑 Xóa Highlight [BẬT]" : "🗑 Xóa Highlight [Tắt]";
+  if (isClearHlMode && isNoteMode) toggleNoteMode();
+}
+
+function toggleNoteMode() {
+  isNoteMode = !isNoteMode;
+  const btn = document.getElementById('btnToggleNoteMode');
+  const toolbar = document.getElementById('mainToolbar');
+  btn.classList.toggle('toggle-active', isNoteMode);
+  btn.textContent = isNoteMode ? "📝 Ghi chú [BẬT]" : "📝 Ghi chú [Tắt]";
+  if (isNoteMode) {
+    toolbar.classList.add('note-mode-on');
+    document.body.classList.add('toolbar-note-active');
+    if (isClearHlMode) toggleClearHlMode();
+  } else {
+    toolbar.classList.remove('note-mode-on');
+    document.body.classList.remove('toolbar-note-active');
+  }
+}
+
+function attachMarkEvents(mark) {
+  mark.addEventListener('click', (e) => {
+    e.stopPropagation();
+    openNotePopupForMark(mark);
+  });
+}
+
+function openNotePopupForMark(targetMark) {
+  currentActiveId = targetMark.dataset.noteId;
+  const existingItem = highlightsData.find(n => n.id == currentActiveId);
+  document.getElementById('modalQuote').textContent = `"${targetMark.textContent}"`;
+  document.getElementById('modalText').value = existingItem ? existingItem.note : "";
+  document.getElementById('modalOverlay').classList.add('show');
+}
+
+function closeModal() {
+  document.getElementById('modalOverlay').classList.remove('show');
+  // Không tự động xóa mark khi close
+  currentActiveId = null;
+}
+
+function executeRemoveHighlight(markNode) {
+  const id = markNode.dataset.noteId;
+  highlightsData = highlightsData.filter(n => n.id != id);
+  const parent = markNode.parentNode;
+  while (markNode.firstChild) parent.insertBefore(markNode.firstChild, markNode);
+  parent.removeChild(markNode);
+  renderNotesList();
+  autoSave();
+}
+
+function saveNote() {
+  const text = document.getElementById('modalText').value.trim();
+  const targetMark = document.querySelector(`mark[data-note-id="${currentActiveId}"]`);
+  if (targetMark) {
+    if (text) {
+      targetMark.classList.add('has-note');
+      const existingIndex = highlightsData.findIndex(n => n.id == currentActiveId);
+      if (existingIndex > -1) highlightsData[existingIndex].note = text;
+      else {
+        // Trường hợp này không nên xảy ra với logic mới, nhưng để an toàn
+        const entryDiv = targetMark.closest('.entry');
+        const entryIndex = Array.from(document.querySelectorAll('.entry')).indexOf(entryDiv);
+        const enTextSpan = entryDiv.querySelector('.en-text');
+        const originalText = entries[entryIndex].en;
+        const start = enTextSpan.innerText.indexOf(targetMark.textContent);
+        if (start !== -1) {
+          highlightsData.push({
+            id: currentActiveId,
+            entryIndex: entryIndex,
+            start: start,
+            length: targetMark.textContent.length,
+            color: curColor,
+            note: text
+          });
+        }
+      }
+    } else {
+      executeDeleteNoteInside();
+      return;
+    }
+  }
+  closeModal();
+  renderNotesList();
+  autoSave();
+}
+
+function executeDeleteNoteInside() {
+  if (!currentActiveId) return;
+  const targetMark = document.querySelector(`mark[data-note-id="${currentActiveId}"]`);
+  if (targetMark) {
+    targetMark.classList.remove('has-note');
+    highlightsData = highlightsData.filter(n => n.id != currentActiveId);
+    if (!targetMark.className.match(/c[0-4]/)) {
+      const parent = targetMark.parentNode;
+      while (targetMark.firstChild) parent.insertBefore(targetMark.firstChild, targetMark);
+      parent.removeChild(targetMark);
+    }
+  }
+  closeModal();
+  renderNotesList();
+  autoSave();
+}
+
+function renderNotesList() {
+  const list = document.getElementById('notesList');
+  const notesWithContent = highlightsData.filter(h => h.note && h.note.trim() !== "");
+  document.getElementById('noteCount').textContent = notesWithContent.length;
+  if (notesWithContent.length === 0) {
+    list.innerHTML = '<div class="no-notes">Chưa có cụm từ ghi chú giải nghĩa nào.</div>';
+    return;
+  }
+  list.innerHTML = notesWithContent.map(n => `
+    <div class="note-item">
+      <span class="note-del" onclick="deleteNoteFromList('${n.id}')">🗑</span>
+      <div class="note-text-quoted" onclick="locateAndHighlight('${n.id}')">"${n.quote || entries[n.entryIndex]?.en.substring(n.start, n.start + n.length) || '...'}"</div>
+      <div class="note-body" onclick="locateAndHighlight('${n.id}')">${n.note}</div>
+    </div>
+  `).join('');
+}
+
+window.deleteNoteFromList = function(id) {
+  const item = highlightsData.find(h => h.id == id);
+  if (item) {
+    highlightsData = highlightsData.filter(n => n.id != id);
+    const mark = document.querySelector(`mark[data-note-id="${id}"]`);
+    if (mark) {
+      mark.classList.remove('has-note');
+      if (!mark.className.match(/c[0-4]/)) {
+        const parent = mark.parentNode;
+        while (mark.firstChild) parent.insertBefore(mark.firstChild, mark);
+        parent.removeChild(mark);
+      }
+    }
+    renderNotesList();
+    autoSave();
+  }
+};
+
+window.locateAndHighlight = function(id) {
+  const mark = document.querySelector(`mark[data-note-id="${id}"]`);
+  if (mark) {
+    mark.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    mark.style.outline = '2px solid #2563eb';
+    setTimeout(() => mark.style.outline = 'none', 1500);
+  }
+};
+
+function autoSave() {
+  clearTimeout(autoSaveTimeout);
+  const ind = document.getElementById('saveInd');
+  ind.classList.add('show');
+  autoSaveTimeout = setTimeout(() => {
+    // Lưu trạng thái ẩn/hiện của từng row
+    const ipaHidden = Array.from(document.querySelectorAll('.ph-row')).map(r => r.classList.contains('hidden-row'));
+    const vieHidden = Array.from(document.querySelectorAll('.vi-row')).map(r => r.classList.contains('hidden-row'));
+    const payload = {
+      ipaHidden,
+      vieHidden,
+      highlights: highlightsData,
+      globalIpaHidden: document.getElementById('btnToggleAllIpa').textContent === 'Show All IPA',
+      globalVieHidden: document.getElementById('btnToggleAllVie').textContent === 'Show All Translations'
+    };
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(payload));
+    setTimeout(() => ind.classList.remove('show'), 500);
+  }, 300);
+}
+
+function restoreHighlightsAndNotes() {
+  // Xóa tất cả các mark hiện có trước
+  document.querySelectorAll('mark.hl').forEach(mark => {
+    const parent = mark.parentNode;
+    while (mark.firstChild) parent.insertBefore(mark.firstChild, mark);
+    parent.removeChild(mark);
+  });
+  
+  // Tạo lại từ dữ liệu đã lưu
+  highlightsData.forEach(data => {
+    const entryDiv = document.querySelectorAll('.entry')[data.entryIndex];
+    if (!entryDiv) return;
+    const enTextSpan = entryDiv.querySelector('.en-text');
+    if (!enTextSpan) return;
+    const originalText = enTextSpan.innerText;
+    if (data.start < 0 || data.start + data.length > originalText.length) return;
+    
+    // Tạo range và surround với mark
+    const range = document.createRange();
+    let startNode = enTextSpan.firstChild;
+    let offset = 0;
+    let foundStart = false;
+    let startNodeObj = null;
+    let startOffset = 0;
+    
+    // Tìm node chứa vị trí bắt đầu
+    const walk = (node) => {
+      if (foundStart) return;
+      if (node.nodeType === Node.TEXT_NODE) {
+        const nodeLength = node.textContent.length;
+        if (offset <= data.start && data.start < offset + nodeLength) {
+          startNodeObj = node;
+          startOffset = data.start - offset;
+          foundStart = true;
+          return;
+        }
+        offset += nodeLength;
+      } else if (node.nodeType === Node.ELEMENT_NODE && node !== enTextSpan) {
+        // Bỏ qua các thẻ mark cũ
+        if (node.tagName === 'MARK') return;
+        for (let child of node.childNodes) walk(child);
+      } else if (node === enTextSpan) {
+        for (let child of node.childNodes) walk(child);
+      }
+    };
+    walk(enTextSpan);
+    
+    if (!startNodeObj) return;
+    
+    try {
+      range.setStart(startNodeObj, startOffset);
+      range.setEnd(startNodeObj, startOffset + data.length);
+      const mark = document.createElement('mark');
+      mark.className = `hl c${data.color}`;
+      mark.dataset.noteId = data.id;
+      if (data.note && data.note.trim() !== "") mark.classList.add('has-note');
+      range.surroundContents(mark);
+      attachMarkEvents(mark);
+    } catch(e) {
+      console.warn("Could not restore highlight", e);
+    }
+  });
+  renderNotesList();
+}
+
+function loadSavedData() {
+  try {
+    const saved = localStorage.getItem(STORAGE_KEY);
+    if (!saved) return false;
+    const data = JSON.parse(saved);
+    if (data.ipaHidden && data.ipaHidden.length) {
+      const rows = document.querySelectorAll('.ph-row');
+      data.ipaHidden.forEach((hidden, idx) => {
+        if (rows[idx]) rows[idx].classList.toggle('hidden-row', hidden);
+      });
+    }
+    if (data.vieHidden && data.vieHidden.length) {
+      const rows = document.querySelectorAll('.vi-row');
+      data.vieHidden.forEach((hidden, idx) => {
+        if (rows[idx]) rows[idx].classList.toggle('hidden-row', hidden);
+      });
+    }
+    if (data.highlights && data.highlights.length) {
+      highlightsData = data.highlights;
+    }
+    // Cập nhật nút toàn cục
+    if (data.globalIpaHidden) document.getElementById('btnToggleAllIpa').textContent = 'Show All IPA';
+    else document.getElementById('btnToggleAllIpa').textContent = 'Hide All IPA';
+    if (data.globalVieHidden) document.getElementById('btnToggleAllVie').textContent = 'Show All Translations';
+    else document.getElementById('btnToggleAllVie').textContent = 'Hide All Translations';
+    return true;
+  } catch(e) { return false; }
+}
+
+function initToolbarToggle() {
+  const toolbar = document.getElementById('mainToolbar');
+  const toggleBtn = document.getElementById('toolbarToggleBtn');
+  if (!toolbar || !toggleBtn) return;
+  toggleBtn.onclick = function(e) {
+    e.preventDefault();
+    toolbar.classList.toggle('collapsed');
+    toggleBtn.textContent = toolbar.classList.contains('collapsed') ? '▲' : '▼';
+    return false;
+  };
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  document.getElementById('btnToggleClearHl').onclick = toggleClearHlMode;
+  document.getElementById('btnToggleNoteMode').onclick = toggleNoteMode;
+  document.getElementById('btnViewNotes').onclick = () => {
+    document.getElementById('notesPanel').classList.toggle('show');
+    if (document.getElementById('notesPanel').classList.contains('show')) renderNotesList();
+  };
+  document.getElementById('closeNotesPanel').onclick = () => document.getElementById('notesPanel').classList.remove('show');
+  document.getElementById('btnToggleAllIpa').onclick = toggleGlobalIpa;
+  document.getElementById('btnToggleAllVie').onclick = toggleGlobalVie;
+  document.getElementById('deleteNoteInsideBtn').onclick = executeDeleteNoteInside;
+  document.getElementById('cancelModalBtn').onclick = closeModal;
+  document.getElementById('saveNoteBtn').onclick = saveNote;
+
+  initColorPicker();
+  buildContent();
+  loadSavedData();
+  restoreHighlightsAndNotes(); // Khôi phục highlight sau khi load dữ liệu
+  
+  // Nếu không có dữ liệu cũ, mặc định hiển thị tất cả
+  if (!localStorage.getItem(STORAGE_KEY)) {
+    showAllIpa();
+    showAllVie();
+  }
+  initToolbarToggle();
+
+  const contentDiv = document.getElementById('content');
+  function processSelection() {
+    clearTimeout(selectionTimeout);
+    selectionTimeout = setTimeout(() => {
+      const sel = window.getSelection();
+      if (!sel || sel.isCollapsed || !sel.toString().trim()) return;
+      const range = sel.getRangeAt(0);
+      if (!contentDiv.contains(range.commonAncestorContainer)) return;
+      if (isClearHlMode) {
+        let targetMark = range.commonAncestorContainer.parentElement?.closest('mark.hl');
+        if (targetMark) executeRemoveHighlight(targetMark);
+        else {
+          const frag = range.cloneContents();
+          frag.querySelectorAll('mark.hl').forEach(im => {
+            const actualMark = document.querySelector(`mark[data-note-id="${im.dataset.noteId}"]`);
+            if (actualMark) executeRemoveHighlight(actualMark);
+          });
+        }
+        sel.removeAllRanges();
+        return;
+      }
+      if (isNoteMode) {
+        let targetMark = range.commonAncestorContainer.parentElement?.closest('mark.hl');
+        if (!targetMark) {
+          // Tìm entry và vị trí để lưu
+          const enSpan = range.commonAncestorContainer.nodeType === Node.TEXT_NODE 
+            ? range.commonAncestorContainer.parentElement?.closest('.en-text')
+            : range.commonAncestorContainer.closest?.('.en-text');
+          if (!enSpan) return;
+          const entryDiv = enSpan.closest('.entry');
+          const entryIndex = Array.from(document.querySelectorAll('.entry')).indexOf(entryDiv);
+          const originalText = enSpan.innerText;
+          const start = range.startOffset;
+          let textNode = range.startContainer;
+          if (textNode.nodeType !== Node.TEXT_NODE) return;
+          const fullText = textNode.textContent;
+          const selectedText = range.toString();
+          const globalStart = enSpan.innerText.indexOf(selectedText);
+          if (globalStart === -1) return;
+          
+          const id = Date.now() + Math.floor(Math.random() * 1000);
+          targetMark = document.createElement('mark');
+          targetMark.className = 'hl pure-note';
+          targetMark.dataset.noteId = id;
+          try { range.surroundContents(targetMark); } catch(e) {
+            const frag = range.extractContents();
+            targetMark.appendChild(frag);
+            range.insertNode(targetMark);
+          }
+          // Lưu vào highlightsData
+          highlightsData.push({
+            id: id,
+            entryIndex: entryIndex,
+            start: globalStart,
+            length: selectedText.length,
+            color: curColor,
+            note: ""
+          });
+          attachMarkEvents(targetMark);
+        }
+        openNotePopupForMark(targetMark);
+        sel.removeAllRanges();
+        return;
+      }
+      if (range.commonAncestorContainer.parentElement?.closest('mark.hl')) return;
+      
+      // Tìm entry và vị trí để lưu
+      const enSpan = range.commonAncestorContainer.nodeType === Node.TEXT_NODE 
+        ? range.commonAncestorContainer.parentElement?.closest('.en-text')
+        : range.commonAncestorContainer.closest?.('.en-text');
+      if (!enSpan) return;
+      const entryDiv = enSpan.closest('.entry');
+      const entryIndex = Array.from(document.querySelectorAll('.entry')).indexOf(entryDiv);
+      const originalText = enSpan.innerText;
+      const selectedText = range.toString();
+      const start = enSpan.innerText.indexOf(selectedText);
+      if (start === -1) return;
+      
+      const id = Date.now() + Math.floor(Math.random() * 1000);
+      const mark = document.createElement('mark');
+      mark.className = `hl c${curColor}`;
+      mark.dataset.noteId = id;
+      try { range.surroundContents(mark); } catch(e) {
+        const frag = range.extractContents();
+        mark.appendChild(frag);
+        range.insertNode(mark);
+      }
+      // Lưu vào highlightsData
+      highlightsData.push({
+        id: id,
+        entryIndex: entryIndex,
+        start: start,
+        length: selectedText.length,
+        color: curColor,
+        note: ""
+      });
+      attachMarkEvents(mark);
+      sel.removeAllRanges();
+      autoSave();
+    }, 150);
+  }
+  contentDiv.addEventListener('mouseup', processSelection);
+  contentDiv.addEventListener('touchend', processSelection);
+  document.addEventListener('click', (e) => {
+    if (!e.target.closest('mark.hl') && !e.target.closest('.toolbar') && !e.target.closest('.modal')) closeModal();
+  });
+});
+</script>
+</body>
+</html>
